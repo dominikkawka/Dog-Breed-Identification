@@ -1,0 +1,6 @@
+tensorflow==2.8.0
+matplotlib
+"fastapi[all]"
+python-multipart
+motor
+opencv-python
