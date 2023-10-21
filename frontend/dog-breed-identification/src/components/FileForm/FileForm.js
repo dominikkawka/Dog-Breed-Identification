@@ -4,7 +4,10 @@ import axios from 'axios'
 function FileForm() {
    const [image, setImage] = useState(null)
    const [imagePreview, setImagePreview] = useState(null)
-   let predResults = null
+   const [prediction, setPrediction]= useState('')
+
+   let predBreed = '';
+   let predConfidence = '';
 
    const handleImageInputChange = (event) => {
       setImage(event.target.files[0])
@@ -35,8 +38,16 @@ function FileForm() {
    }
 
    const handlePredictionResults = async () => {
-      const result = await axios.get(`http://localhost:8000/prediction`)
-      return console.log(result)
+      const result = await axios.get(`http://localhost:8000/allPredictions`)
+
+      // This gets the information from the database rather than from the model directly
+      // Hypothetically: If somebody else were to use the app at the same time, 
+      // and uploaded an image, it would get the wrong prediction.
+
+      predBreed = result.data[result.data.length-1].predictedBreed
+      predConfidence = result.data[result.data.length-1].confidence
+
+      setPrediction(predBreed + ': ' + predConfidence)
    }
 
    return (
@@ -44,9 +55,11 @@ function FileForm() {
          <form onSubmit={handleSubmit}>
             <input type="file" onChange={handleImageInputChange}/>
             <button type="submit">Upload Image</button>
-            <button onClick={handlePredictionResults}>View All Prediction Results</button>
          </form>
-         {imagePreview && <img src={imagePreview} alt="uploaded image" width="192px" height="192px"/>}
+         <br />
+         <button onClick={handlePredictionResults}>View Prediction Results</button>
+         <p>Predicted Breed: {prediction}</p>
+         {imagePreview && <img src={imagePreview} alt="prediction" width="192px" height="192px"/>}
       </div>
    )
 }
