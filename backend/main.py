@@ -29,8 +29,8 @@ async def uploadImage(image: UploadFile = File(...)):
          shutil.copyfileobj(image.file, buffer)
 
       result = loadRunModel.modelPrediction(image.filename)
-      #database.save_prediction(result)
-      return print(result)
+      database.save_prediction(result)
+      return result
    else:
       raise HTTPException(status_code=400, detail="wrong file extension, please use png or jpg")
    
@@ -40,8 +40,7 @@ async def readWebcamFeed():
    result = loadRunModel.webcamFeed()
    return result
 
-
-@app.get("/prediction")
-async def prediction(): 
+@app.get("/allPredictions")
+async def allPredictions(): 
    response = await database.fetch_all_predictions()
    return response

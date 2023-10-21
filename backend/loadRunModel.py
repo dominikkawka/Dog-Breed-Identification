@@ -33,20 +33,21 @@ def modelPrediction(dogBreedImage):
             "image": dogBreedImage,
             }
     
-    return print(data)
-    #return data
+    #return print(data)
+    return data
 
 def webcamFeed():
     cam = cv2.VideoCapture(0)
     cam.set(cv2.CAP_PROP_FRAME_WIDTH, val.image_size)
     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, val.image_size)
+
+    # While cam is opened, the camera will take constant pictures, 
+    # if a button is pressed, it will save the photo and then upload it to the model
+    # after the image is updated to the model, close the camera. 
     while cam.isOpened():
         ret, frame = cam.read()
         cv2.imwrite('cameraPhoto.jpg', frame)
-        modelPrediction('cameraPhoto.jpg')
+        #modelPrediction('cameraPhoto.jpg')
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     cam.release()
-
-
-webcamFeed()
