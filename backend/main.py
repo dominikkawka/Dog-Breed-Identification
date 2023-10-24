@@ -36,9 +36,9 @@ async def uploadImage(image: UploadFile = File(...)):
    
 @app.post("/webcamImage")
 async def readWebcamFeed():
-   #goes into a infinite loop when testing in swaggerUI
-   result = loadRunModel.webcamFeed()
-   return result
+   #Convert base64 string to image
+   #run image in model, get result
+   return 0
 
 @app.get("/allPredictions")
 async def allPredictions(): 
