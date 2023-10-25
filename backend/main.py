@@ -35,10 +35,10 @@ async def uploadImage(image: UploadFile = File(...)):
       raise HTTPException(status_code=400, detail="wrong file extension, please use png or jpg")
    
 @app.post("/webcamImage")
-async def readWebcamFeed():
-   #Convert base64 string to image
-   #run image in model, get result
-   return 0
+async def readWebcamFeed(base64String):
+   result = loadRunModel.webcamBase64toJPG(base64String)
+   database.save_prediction(result)
+   return result
 
 @app.get("/allPredictions")
 async def allPredictions(): 

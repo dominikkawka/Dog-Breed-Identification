@@ -10,7 +10,6 @@ function App() {
     <div className="App">
       <p>Upload an image file!</p>
       <FileForm/>
-      <PredictionResults/>
       <br />
       <p>Or... you can just take a picture!</p>
       <br />
