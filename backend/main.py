@@ -44,3 +44,8 @@ async def readWebcamFeed():
 async def allPredictions(): 
    response = await database.fetch_all_predictions()
    return response
+
+@app.get("/getPrediction")
+async def getPrediction(image):
+   response = await database.fetch_prediction_by_image_name(image)
+   return response

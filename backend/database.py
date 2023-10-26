@@ -15,8 +15,9 @@ async def fetch_all_predictions():
         predictions.append(prediction(**document))
     return predictions
 
-async def fetch_prediction_by_image_name(dogBreedImage):
-    return 0
+async def fetch_prediction_by_image_name(image):
+    document = await collection.find_one({"image":image}, {'_id': 0})
+    return document
 
 def save_prediction(prediction):
    document = prediction
