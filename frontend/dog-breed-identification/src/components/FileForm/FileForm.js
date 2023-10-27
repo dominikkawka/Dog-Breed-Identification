@@ -37,14 +37,19 @@ function FileForm() {
    }
 
    const handlePredictionResults = async () => {
-      const result = await axios.get(`http://localhost:8000/allPredictions`)
-
-      // This gets the information from the database rather than from the model directly
-      // Hypothetically: If somebody else were to use the app at the same time, 
-      // and uploaded an image, it would get the wrong prediction.
-
-      predBreed = result.data[result.data.length-1].predictedBreed
-      predConfidence = result.data[result.data.length-1].confidence
+      await axios.get(`http://localhost:8000/getPrediction`, {
+         params: {
+            "image": image.name,
+         }
+      })
+      .then(response => {
+         console.log(response)
+         predBreed = response.data.predictedBreed
+         predConfidence = response.data.confidence
+      })
+      .catch(err => {
+         console.error(err)
+      })
 
       setPrediction(predBreed + ': ' + predConfidence)
    }
