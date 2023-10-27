@@ -1,6 +1,8 @@
 tensorflow==2.8.0
 matplotlib
-"fastapi[all]"
+fastapi
+uvicorn
 python-multipart
 motor
 opencv-python
+protobuf==3.20.0
