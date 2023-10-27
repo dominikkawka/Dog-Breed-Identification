@@ -2,11 +2,6 @@ import axios from "axios";
 import React, {useState, useRef, useCallback} from "react";
 import Webcam from "react-webcam";
 
-// https://javascript.plainenglish.io/image-and-video-capturing-with-react-webcam-f4ea36ed4080
-// https://blog.logrocket.com/using-react-webcam-capture-display-images/
-// https://medium.com/@razibul.ahmed/a-quick-and-dirty-primer-on-using-react-webcam-d3e65faa1a3
-
-
 function WebcamFeed() {
   const webcamRef = useRef(null);
   const [image, setImage] = useState(null);
@@ -25,17 +20,11 @@ function WebcamFeed() {
     facingMode: "user",
    };
 
-   
-    //https://github.com/axios/axios/issues/4034
-    //https://stackoverflow.com/questions/50836366/error-in-console-of-axios
-    //http://localhost:8000/webcamImage
-    //https://stackoverflow.com/questions/73701378/object-msg-field-required-type-value-error-missing-loc-even-whe
-  const handleSubmit = async () => {
-    
+  const handleSubmit = () => {
     imgMetaData = image.split(",")
     splitImgMetaData = imgMetaData[1]
     
-    axios.post( "http://localhost:8000/webcamImage", splitImgMetaData) 
+    axios.post( "http://localhost:8000/webcamImage", {"image": splitImgMetaData}) 
     .then(r => console.log(r.status))
     .catch(e => console.log(e)); 
     console.log(splitImgMetaData) 

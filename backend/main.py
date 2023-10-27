@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import loadRunModel
 import database
+import model
 
 app = FastAPI()
 
@@ -35,10 +36,11 @@ async def uploadImage(image: UploadFile = File(...)):
       raise HTTPException(status_code=400, detail="wrong file extension, please use png or jpg")
    
 @app.post("/webcamImage")
-async def readWebcamFeed(base64String):
-   result = loadRunModel.webcamBase64toJPG(base64String)
+async def readWebcamFeed(base64String: model.webcamImage):
+   #https://stackoverflow.com/questions/59929028/python-fastapi-error-422-with-post-request-when-sending-json-data
+   result = loadRunModel.webcamBase64toJPG(base64String.image)
    database.save_prediction(result)
-   return result
+   return print(result)
 
 @app.get("/allPredictions")
 async def allPredictions(): 
