@@ -29,7 +29,6 @@ function FileForm() {
 
       if (response.ok) {
          console.log("uploaded picture")
-         console.log(response.json)
       } else {
          console.error("upload fail")
       } } catch(error) {

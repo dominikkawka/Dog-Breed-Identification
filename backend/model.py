@@ -6,3 +6,6 @@ class prediction(BaseModel):
     actualBreed: str
     image: str
     _id: int
+
+class webcamImage(BaseModel):
+    image: str
