@@ -2,6 +2,7 @@ import numpy as np
 import tensorflow as tf
 from keras.models import load_model
 
+import random
 import base64
 from PIL import Image
 import io
@@ -41,7 +42,9 @@ def modelPrediction(dogBreedImage):
 
 def webcamBase64toJPG(base64String):
     img = Image.open(io.BytesIO(base64.decodebytes(bytes(base64String, "utf-8"))))
-    img.save('webcamImage.jpeg')
-    result = modelPrediction('webcamImage.jpeg')
+    randomInt = str(random.randint(0, 10000))
+    result = 'webcamImage-'+randomInt+'.jpeg'
+    img.save(result)
+    result = modelPrediction(result)
     return result
 #data:image/jpeg;base64,
