@@ -37,7 +37,7 @@ function FileForm() {
    }
 
    const handlePredictionResults = async () => {
-      await axios.get(`http://localhost:8000/getPrediction`, {
+      await axios.get(`http://localhost:8000/prediction`, {
          params: {
             "image": image.name,
          }
@@ -55,7 +55,7 @@ function FileForm() {
    }
 
    return (
-      <div>
+      <>
          <form onSubmit={handleSubmit}>
             <input type="file" onChange={handleImageInputChange}/>
             <button type="submit">Upload Image</button>
@@ -64,7 +64,7 @@ function FileForm() {
          <button onClick={handlePredictionResults}>View Prediction Results</button>
          <p>Predicted Breed: {prediction}</p>
          {imagePreview && <img src={imagePreview} alt="prediction" width="192px" height="192px"/>}
-      </div>
+      </>
    )
 }
 
