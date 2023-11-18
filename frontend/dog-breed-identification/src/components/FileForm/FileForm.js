@@ -37,7 +37,7 @@ function FileForm() {
    }
 
    const handlePredictionResults = async () => {
-      await axios.get(`http://localhost:8000/prediction`, {
+      await axios.get(`http://localhost:8000/getPrediction`, {
          params: {
             "image": image.name,
          }
