@@ -1,10 +1,13 @@
 import React, {useState} from 'react'
 import axios from 'axios'
+import SelectCorrectBreed from '../SelectCorrectBreed/SelectCorrectBreed'
 
 function FileForm() {
    const [image, setImage] = useState(null)
    const [imagePreview, setImagePreview] = useState(null)
    const [prediction, setPrediction]= useState('')
+   const [confidence, setConfidence]= useState('')
+   const [actualBreed, setActualBreed] = useState()
 
    let predBreed = '';
    let predConfidence = '';
@@ -28,11 +31,11 @@ function FileForm() {
          })
 
       if (response.ok) {
-         console.log("uploaded picture")
+         //console.log("uploaded picture")
       } else {
-         console.error("upload fail")
+         //console.error("upload fail")
       } } catch(error) {
-      console.error(error)
+      //console.error(error)
       }
    }
 
@@ -43,15 +46,40 @@ function FileForm() {
          }
       })
       .then(response => {
-         console.log(response)
+         //console.log(response)
          predBreed = response.data.predictedBreed
          predConfidence = response.data.confidence
       })
       .catch(err => {
-         console.error(err)
+         //console.error(err)
       })
 
-      setPrediction(predBreed + ': ' + predConfidence)
+      setPrediction(predBreed)
+      setConfidence(predConfidence)
+   }
+
+   const handleSubmitActualBreed = async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData();
+      formData.append('image', image)
+
+      console.log("prediction: " + prediction)
+
+      await axios.patch(`http://localhost:8000/prediction`, {
+         params: {
+            "predictedBreed": prediction,
+            "image": image.name,
+            "actualBreed": prediction
+         }
+      })
+      .then(response => {
+         console.log(response)
+      })
+      .catch(err => {
+         console.log(prediction + ", " + image.name)
+         console.error(err)
+      })
    }
 
    return (
@@ -62,8 +90,10 @@ function FileForm() {
          </form>
          <br />
          <button onClick={handlePredictionResults}>View Prediction Results</button>
-         <p>Predicted Breed: {prediction}</p>
+         <p>Predicted Breed: {prediction} + Confidence: {confidence}</p>
          {imagePreview && <img src={imagePreview} alt="prediction" width="192px" height="192px"/>}
+         <SelectCorrectBreed />
+         <button onClick={handleSubmitActualBreed}>Submit Actual Breed</button>
       </>
    )
 }
