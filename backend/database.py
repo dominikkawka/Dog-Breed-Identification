@@ -23,3 +23,10 @@ def save_prediction(prediction):
    document = prediction
    result = collection.insert_one(document)
    return result
+
+async def update_breed(predictedBreed, image, actualBreed):
+    query = {"predictedBreed": predictedBreed, "image":image}
+    update= {"$set": {"actualBreed": actualBreed}}
+
+    document = await collection.update_one(query, update)
+    return document
