@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import NavigationBar from "../components/NavigationBar/NavigationBar";
-import FooterBar from "../components/FooterBar/FooterBar";
 
 const AboutPage = () => {
   const [amount, setAmount] = useState();
@@ -22,13 +20,11 @@ const AboutPage = () => {
 
   return (
     <>
-      <NavigationBar />
       <div>
         <p>About Page</p>
         <p>This model has identified {amount} pictures</p>
         <button onClick={fetchAllPredictions}>Refresh Data</button>
       </div>
-      <FooterBar />
     </>
   );
 };

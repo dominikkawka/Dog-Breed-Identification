@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 import SelectCorrectBreed from '../SelectCorrectBreed/SelectCorrectBreed'
+import { uploadImage, getPrediction } from '../../api/api'
+import { Button, Typography, Card, CardContent, CardMedia, Box } from '@mui/material';
+import './imageAnimation.css';
 
 function FileForm() {
    const [image, setImage] = useState(null)
@@ -8,9 +11,7 @@ function FileForm() {
    const [prediction, setPrediction]= useState('')
    const [confidence, setConfidence]= useState('')
    const [actualBreed, setActualBreed] = useState()
-
-   let predBreed = '';
-   let predConfidence = '';
+   
 
    const handleImageInputChange = (event) => {
       setImage(event.target.files[0])
@@ -19,44 +20,26 @@ function FileForm() {
 
    const handleSubmit = async (event) => {
       event.preventDefault();
-
-      const formData = new FormData();
-      formData.append('image', image)
-
+  
       try {
-         let endpoint = "http://localhost:8000/uploadImage"
-         let response = await fetch(endpoint, {
-            method: "POST",
-            body: formData
-         })
+        const response = await uploadImage(image);
+        if (response) {
+          
+        }
+      } catch (error) {
 
-      if (response.ok) {
-         //console.log("uploaded picture")
-      } else {
-         //console.error("upload fail")
-      } } catch(error) {
-      //console.error(error)
       }
-   }
-
-   const handlePredictionResults = async () => {
-      await axios.get(`http://localhost:8000/getPrediction`, {
-         params: {
-            "image": image.name,
-         }
-      })
-      .then(response => {
-         //console.log(response)
-         predBreed = response.data.predictedBreed
-         predConfidence = response.data.confidence
-      })
-      .catch(err => {
-         //console.error(err)
-      })
-
-      setPrediction(predBreed)
-      setConfidence(predConfidence)
-   }
+    };
+  
+    const handlePredictionResults = async () => {
+      try {
+        const response = await getPrediction(image.name);
+        setPrediction(response.predictedBreed || '');
+        setConfidence(response.confidence || '');
+      } catch (error) {
+        // Handle error
+      }
+    };
 
    const handleSubmitActualBreed = async (event) => {
       event.preventDefault();
@@ -84,18 +67,56 @@ function FileForm() {
 
    return (
       <>
-         <form onSubmit={handleSubmit}>
-            <input type="file" onChange={handleImageInputChange}/>
-            <button type="submit">Upload Image</button>
-         </form>
-         <br />
-         <button onClick={handlePredictionResults}>View Prediction Results</button>
-         <p>Predicted Breed: {prediction} + Confidence: {confidence}</p>
-         {imagePreview && <img src={imagePreview} alt="prediction" width="192px" height="192px"/>}
-         <SelectCorrectBreed />
-         <button onClick={handleSubmitActualBreed}>Submit Actual Breed</button>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="file"
+            onChange={handleImageInputChange}
+            style={{ display: 'none' }}
+            id="image-upload"
+          />
+          <label htmlFor="image-upload">
+            <Button variant="contained" component="span">
+              Upload Image
+            </Button>
+            <Button type="submit" variant="contained" onClick={handleSubmit}>
+               Submit Image
+            </Button>
+          </label>
+        </form>
+        <br />
+        <Button variant="contained" onClick={handlePredictionResults}>
+          View Prediction Results
+        </Button>
+        <Typography>
+          Predicted Breed: {prediction} + Confidence: {confidence}
+        </Typography>
+        <Box style={{paddingLeft: "44%"}}
+        sx={{ alignContent: "center"}}>
+        {imagePreview && (
+          <Card sx={{ height: 256, width: 192, padding: 1 }}>
+            <CardMedia
+              component="img"
+              alt="Prediction"
+              image={imagePreview}
+              className="animation"
+              sx={{ height: 192, width: 192 }}
+            />
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {image.name}
+              </Typography>
+            </CardContent>
+          </Card> 
+        )}
+        </Box> 
+        <Box style={{paddingLeft: "42%"}}>
+        <SelectCorrectBreed />
+        </Box>
+        <Button variant="contained" onClick={handleSubmitActualBreed}>
+          Submit Actual Breed
+        </Button>
       </>
-   )
-}
+    );
+  }
 
 export default FileForm
