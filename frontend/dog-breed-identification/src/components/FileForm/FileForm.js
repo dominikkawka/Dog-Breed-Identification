@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 import SelectCorrectBreed from '../SelectCorrectBreed/SelectCorrectBreed'
-import { uploadImage, getPrediction } from '../../api/api'
+import { uploadImage, getPrediction, patchCorrectBreed } from '../../api/api'
 import { Button, Typography, Card, CardContent, CardMedia, Box } from '@mui/material';
 import './imageAnimation.css';
 
@@ -20,14 +20,11 @@ function FileForm() {
 
    const handleSubmit = async (event) => {
       event.preventDefault();
-  
       try {
         const response = await uploadImage(image);
         if (response) {
-          
         }
       } catch (error) {
-
       }
     };
   
@@ -41,29 +38,19 @@ function FileForm() {
       }
     };
 
-   const handleSubmitActualBreed = async (event) => {
+    const handleSubmitActualBreed = async (event) => {
       event.preventDefault();
-
-      const formData = new FormData();
-      formData.append('image', image)
-
-      console.log("prediction: " + prediction)
-
-      await axios.patch(`http://localhost:8000/prediction`, {
-         params: {
-            "predictedBreed": prediction,
-            "image": image.name,
-            "actualBreed": prediction
-         }
-      })
-      .then(response => {
-         console.log(response)
-      })
-      .catch(err => {
-         console.log(prediction + ", " + image.name)
-         console.error(err)
-      })
-   }
+      let actualBreed = "FrontEndTest"
+      try {
+        const response = await patchCorrectBreed(prediction, image.name, actualBreed);
+        if (response) {
+        }
+      } catch (error) {
+        //console.log("prediction: "+ prediction)
+        //console.log("image name: "+ image.name)
+        //console.log("actualBreed: "+ actualBreed)
+      }
+    };
 
    return (
       <>

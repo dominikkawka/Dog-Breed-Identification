@@ -53,6 +53,6 @@ async def getPrediction(image):
    return response
 
 @app.patch("/prediction")
-async def patchCorrectBreed(predicted_breed: str, image_name: str, actual_breed: str):
-   response = await database.update_breed(predicted_breed, image_name, actual_breed)
+async def patchCorrectBreed(predictedBreed: str, image, actualBreed: str):
+   response = await database.update_breed(predictedBreed, image, actualBreed)
    return response

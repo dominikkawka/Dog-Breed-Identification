@@ -16,3 +16,7 @@ var/
 *.egg
 .env
 env.py
+
+*.jpg
+*.jpeg
+*.png
