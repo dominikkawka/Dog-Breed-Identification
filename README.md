@@ -2,28 +2,26 @@
 
 #### Database used: [Stanford Dogs Dataset](https://www.kaggle.com/datasets/jessicali9530/stanford-dogs-dataset)
 
-## FARM Stack+
+## FARM Stack
 - FastAPI
 - React
 - MongoDB
-- Python
-- Tensorflow
+
+### + Other Technologies
+- Tensorflow 2.15
 
 ## Installation
 
 `cd backend`
 
-`pip install -r requirements.txt`
+`pip install -r ../requirements.txt`
 
 `uvicorn main:app --reload`
 
-If you want to build the model yourself, make sure to set up Nvidia CUDA and CuDNN with the appropriate tensorflow version. For more information check this [LINK](https://www.tensorflow.org/install/source#gpu_support_2).  tensorflow 2.8 requires CuDNN 8.1 and CUDA 11.2
+If you wish to use your GPU to build the model yourself, please follow [this guide](https://www.tensorflow.org/install/pip). 
 
 `cd frontend/dog-breed-identification`
 
 `npm install`
 
 `npm start`
-
-HEADS UP:
-In the directory `backend/commonVariables.py`, make sure to change the datasetDir variable to the dataset.
