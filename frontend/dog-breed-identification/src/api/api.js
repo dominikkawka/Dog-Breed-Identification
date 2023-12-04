@@ -27,4 +27,23 @@ const getPrediction = async (imageName) => {
   }
 };
 
-export { uploadImage, getPrediction };
+const patchCorrectBreed = async (predictedBreed, imageName, actualBreed) => {
+  try {
+    const response = await axios.patch('http://localhost:8000/prediction', {
+      params: {
+        predictedBreed: predictedBreed,
+        image: imageName,
+        actualBreed: actualBreed,
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error patching correct breed:', error);
+    console.log("prediction: "+ predictedBreed)
+    console.log("image name: "+ imageName)
+    console.log("actualBreed: "+ actualBreed)
+    throw error;
+  }
+};
+
+export { uploadImage, getPrediction, patchCorrectBreed };
