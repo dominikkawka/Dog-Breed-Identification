@@ -82,10 +82,10 @@ earlyStop = tf.keras.callbacks.EarlyStopping(
   monitor="val_accuracy",
   patience=10,
   mode="max",
-  #start_from_epoch=20 #not available in version 2.8
+  start_from_epoch=20 #not available in version 2.8
 )
 
-hist = model.fit(trainDataset, validation_data=validationDataset, epochs=epochs, callbacks=[earlyStop]) #
+hist = model.fit(trainDataset, validation_data=validationDataset, epochs=epochs, callbacks=[earlyStop])
 print(hist)
 
 acc = hist.history['accuracy']
@@ -93,7 +93,7 @@ val_acc = hist.history['val_accuracy']
 loss = hist.history['loss']
 val_loss = hist.history['val_loss']
 
-model.save('model/InceptionV3-2.8-Augmented.keras')
+model.save('model/InceptionV3-2.15-Augmented.keras')
 
 fig = plt.figure()
 plt.plot(hist.history['accuracy'], color='red', label='accuracy')

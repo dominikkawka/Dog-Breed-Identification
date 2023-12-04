@@ -1,8 +1,8 @@
-tensorflow==2.8.0
+tensorflow==2.15
 matplotlib
 fastapi
 uvicorn
 python-multipart
 motor
 opencv-python
-protobuf==3.20.0
+protobuf
