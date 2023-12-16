@@ -85,7 +85,7 @@ export default function FreeSoloCreateOptionDialog() {
         clearOnBlur
         handleHomeEndKeys
         renderOption={(props, option) => <li {...props}>{option.breed}</li>}
-        sx={{ width: '25%', background: "#DBE4EE", justifyContent: 'center !important'}}
+        sx={{ background: "#DBE4EE", justifyContent: 'center !important'}}
         freeSolo
         renderInput={(params) => <TextField {...params} label="Select dog breed" />}
       />

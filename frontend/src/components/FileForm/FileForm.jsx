@@ -77,7 +77,7 @@ function FileForm() {
         <Typography>
           Predicted Breed: {prediction} + Confidence: {confidence}
         </Typography>
-        <Box style={{paddingLeft: "44%"}}
+        <Box 
         sx={{ alignContent: "center"}}>
         {imagePreview && (
           <Card sx={{ height: 256, width: 192, padding: 1 }}>

@@ -9,6 +9,7 @@
 
 ### + Other Technologies
 - Tensorflow 2.15
+- Vite.js
 
 ## Installation
 
@@ -20,8 +21,8 @@
 
 If you wish to use your GPU to build the model yourself, please follow [this guide](https://www.tensorflow.org/install/pip). 
 
-`cd frontend/dog-breed-identification`
+`cd frontend`
 
 `npm install`
 
-`npm start`
+`npm run dev`
