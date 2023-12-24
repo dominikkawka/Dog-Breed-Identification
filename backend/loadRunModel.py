@@ -10,15 +10,18 @@ import io
 import commonVariables as val
 
 def modelPrediction(dogBreedImage):
-    loadModel = load_model('model/InceptionV3-2.8-Augmented.keras')
+    gpu_devices = tf.config.experimental.list_physical_devices('GPU')
+    for device in gpu_devices:
+        tf.config.experimental.set_memory_growth(device, True)
 
     #convert image
-
+    
     valueBreed = tf.keras.utils.load_img(dogBreedImage, target_size=(val.image_size,val.image_size))
 
     img_array = tf.keras.utils.img_to_array(valueBreed)
     img_array = tf.expand_dims(img_array, 0) # Create a batch
 
+    loadModel = load_model('model/InceptionV3-2.8-Augmented.keras')
     predictions = loadModel.predict(img_array)
 
     # each result here has 0.00 ... instead of a full number in front, which is why the confidence is low no matter what.

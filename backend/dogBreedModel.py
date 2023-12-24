@@ -5,13 +5,14 @@ from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout, RandomFlip, RandomRotation, RandomZoom, Input, BatchNormalization, Resizing,  Rescaling
 from tensorflow.keras.metrics import Precision, Recall, BinaryAccuracy
 from tensorflow.keras.applications import InceptionV3
+from tensorflow.keras.optimizers import Adam
 
 import commonVariables as val
 
 number_of_breeds = len(val.breedLabel)
-batch_size = 32
+batch_size = 64
 seed = 10
-epochs = 96
+epochs = 80
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
@@ -69,20 +70,23 @@ dataAugmentation = Sequential([
 model = Sequential([
    dataAugmentation,
    InceptionV3,
-   
+
+   Dense((number_of_breeds*2), activation="relu"),
    Dropout(0.4),
    Flatten(),
    Dense(number_of_breeds, activation='softmax'),
 ])
 
 print(model.summary())
-model.compile('adam', loss=tf.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])
+
+customOptimizer = Adam(learning_rate=0.001)
+model.compile(optimizer=customOptimizer, loss=tf.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])
 
 earlyStop = tf.keras.callbacks.EarlyStopping(
   monitor="val_accuracy",
   patience=10,
   mode="max",
-  start_from_epoch=20 #not available in version 2.8
+  start_from_epoch=40 #not available in version 2.8
 )
 
 hist = model.fit(trainDataset, validation_data=validationDataset, epochs=epochs, callbacks=[earlyStop])
@@ -93,7 +97,9 @@ val_acc = hist.history['val_accuracy']
 loss = hist.history['loss']
 val_loss = hist.history['val_loss']
 
-model.save('model/InceptionV3-2.15-Augmented.keras')
+model.save('model/InceptionV3-2.15-24Dec-Augmented.keras')
+model.save('model/InceptionV3-2.15-24Dec-Augmented.h5')
+model.save('model/InceptionV3-2.15-24Dec-Augmented.tf')
 
 fig = plt.figure()
 plt.plot(hist.history['accuracy'], color='red', label='accuracy')
