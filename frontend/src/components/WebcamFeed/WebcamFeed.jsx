@@ -15,8 +15,8 @@ function WebcamFeed() {
    }, [webcamRef]);
  
    const videoConstraints = {
-    width: 192,
-    height: 192,
+    width: 256,
+    height: 256,
     facingMode: "user",
    };
 
@@ -38,8 +38,8 @@ function WebcamFeed() {
               screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}
               audio={false}
-              height={192}
-              width={192}
+              height={256}
+              width={256}
               ref={webcamRef}
               mirrored={true}
             />

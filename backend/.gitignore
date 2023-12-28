@@ -1,4 +1,6 @@
 *.keras
+*.h5
+*.tf
 __pycache__/
 
 bin/

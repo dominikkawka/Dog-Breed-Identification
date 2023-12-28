@@ -86,7 +86,7 @@ earlyStop = tf.keras.callbacks.EarlyStopping(
   monitor="val_accuracy",
   patience=10,
   mode="max",
-  start_from_epoch=40 #not available in version 2.8
+  start_from_epoch=40
 )
 
 hist = model.fit(trainDataset, validation_data=validationDataset, epochs=epochs, callbacks=[earlyStop])
@@ -97,9 +97,10 @@ val_acc = hist.history['val_accuracy']
 loss = hist.history['loss']
 val_loss = hist.history['val_loss']
 
-model.save('model/InceptionV3-2.15-24Dec-Augmented.keras')
-model.save('model/InceptionV3-2.15-24Dec-Augmented.h5')
-model.save('model/InceptionV3-2.15-24Dec-Augmented.tf')
+# In TF2.15, the .keras file will infinately stall when trying to analyse a photo.
+#model.save('model/InceptionV3-2.15-28Dec-Augmented.keras')
+model.save('model/InceptionV3-2.15-28Dec-Augmented.h5')
+#model.save('model/InceptionV3-2.15-28Dec-Augmented.tf')
 
 fig = plt.figure()
 plt.plot(hist.history['accuracy'], color='red', label='accuracy')
