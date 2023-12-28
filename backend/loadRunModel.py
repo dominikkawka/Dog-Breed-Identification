@@ -21,7 +21,7 @@ def modelPrediction(dogBreedImage):
     img_array = tf.keras.utils.img_to_array(valueBreed)
     img_array = tf.expand_dims(img_array, 0) # Create a batch
 
-    loadModel = load_model('model/InceptionV3-2.8-Augmented.keras')
+    loadModel = load_model('model/InceptionV3-2.15-28Dec-Augmented.h5')
     predictions = loadModel.predict(img_array)
 
     # each result here has 0.00 ... instead of a full number in front, which is why the confidence is low no matter what.

@@ -54,5 +54,6 @@ async def getPrediction(image):
 
 @app.patch("/prediction")
 async def patchCorrectBreed(predictedBreed: str, image, actualBreed: str):
+   #https://fastapi.tiangolo.com/tutorial/encoder/
    response = await database.update_breed(predictedBreed, image, actualBreed)
    return response
