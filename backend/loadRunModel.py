@@ -31,7 +31,7 @@ def modelPrediction(dogBreedImage):
     #print(score) 
     #print("--------")
 
-    confidence = 100 * np.max(score)
+    confidence = len(val.breedLabel) * np.max(score)
     confidencePercentage = ("{:.2f}").format(confidence) #+ "%"
 
     data = {"predictedBreed": val.breedLabel[np.argmax(score)],

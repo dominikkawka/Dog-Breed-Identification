@@ -30,12 +30,10 @@ const getPrediction = async (imageName) => {
 const patchCorrectBreed = async (predictedBreed, imageName, actualBreed) => {
   try {
     const response = await axios.patch('http://localhost:8000/prediction', {
-      params: {
-        predictedBreed: predictedBreed,
-        image: imageName,
-        actualBreed: actualBreed,
-      }
-    });
+        'predictedBreed': predictedBreed,
+        'actualBreed': actualBreed,
+        'image': imageName,
+      });
     return response.data;
   } catch (error) {
     console.error('Error patching correct breed:', error);
