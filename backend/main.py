@@ -53,7 +53,16 @@ async def getPrediction(image):
    return response
 
 @app.patch("/prediction")
-async def patchCorrectBreed(predictedBreed: str, image, actualBreed: str):
+async def patchCorrectBreed(correctBreed: model.submitFeedbackPrediction): #predictedBreed: str, image, actualBreed: str
    #https://fastapi.tiangolo.com/tutorial/encoder/
-   response = await database.update_breed(predictedBreed, image, actualBreed)
+   response = await database.update_breed(correctBreed.predictedBreed, correctBreed.image, correctBreed.actualBreed)
    return response
+
+@app.get("/allUsers")
+async def allUsers(): 
+   response = await database.fetch_all_users()
+   return response
+
+@app.post("/createUser")
+async def createUser():
+   return 0 

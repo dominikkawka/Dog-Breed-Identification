@@ -5,7 +5,8 @@ import { uploadImage, getPrediction, patchCorrectBreed } from '../../api/api'
 import { Button, Typography, Card, CardContent, CardMedia, Box } from '@mui/material';
 import './imageAnimation.css';
 
-function FileForm() {
+//{value} change selectDogBreed so that it isn't labeled {'breed': 'x'}, and rather, just 'x'
+function FileForm() { 
    const [image, setImage] = useState(null)
    const [imagePreview, setImagePreview] = useState(null)
    const [prediction, setPrediction]= useState('')
@@ -40,7 +41,7 @@ function FileForm() {
 
     const handleSubmitActualBreed = async (event) => {
       event.preventDefault();
-      let actualBreed = "FrontEndTest"
+      let actualBreed = "test"
       try {
         const response = await patchCorrectBreed(prediction, image.name, actualBreed);
         if (response) {
