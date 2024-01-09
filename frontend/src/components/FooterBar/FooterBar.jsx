@@ -23,7 +23,7 @@ function FooterBar() {
   return (
     <>
     <footer style={{position: "fixed", bottom:0, left:0, width: '100%', background: "#004385", color: "#DBE4EE"}}>
-        <Container maxHeight="xl" sx={{ m: 2 }}>
+        <Container sx={{ m: 2 }}>
             <Grid container spacing={0}>
               <Grid item>
                 <Box display="flex" justifyContent="center" alignItems="center">

@@ -12,25 +12,20 @@ import { Box } from '@mui/material';
 const filter = createFilterOptions();
 
 export default function FreeSoloCreateOptionDialog() {
-  const [value, setValue] = React.useState(null); //use this value in FileForm.js for actualBreed
+  const [value, setValue] = React.useState(''); 
   const [open, toggleOpen] = React.useState(false);
 
   const handleClose = () => {
-    setDialogValue({
-      breed: '',
-    });
+    setDialogValue('');
     toggleOpen(false);
   };
 
-  const [dialogValue, setDialogValue] = React.useState({
-    breed: '',
-  });
+  const [dialogValue, setDialogValue] = React.useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setValue({
-      breed: dialogValue.breed,
-    });
+    setValue(dialogValue.breed);
+    setActualBreed(value.breed)
     handleClose();
   };
 
@@ -47,14 +42,17 @@ export default function FreeSoloCreateOptionDialog() {
               setDialogValue({
                 breed: newValue,
               });
+              setActualBreed(newValue)
             });
           } else if (newValue && newValue.inputValue) {
             toggleOpen(true);
             setDialogValue({
               breed: newValue.inputValue,
             });
+            setActualBreed(newValue.inputValue)
           } else {
             setValue(newValue);
+            setActualBreed(newValue)
           }
         }}
         filterOptions={(options, params) => {
