@@ -12,11 +12,11 @@ class submitFeedbackPrediction(BaseModel):
     actualBreed: str
     image: str
 
+class webcamImage(BaseModel):
+    image: str
+
 class user(BaseModel):
     username: str
     email: str
     password: str
     _id: int
-
-class webcamImage(BaseModel):
-    image: str

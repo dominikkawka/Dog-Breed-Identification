@@ -51,3 +51,16 @@ def webcamBase64toJPG(base64String):
     result = modelPrediction(result)
     return result
 #data:image/jpeg;base64,
+
+def createUser(username, email, password):
+    #user validation, is username/email taken? is email valid? etc.
+
+    #password encryption
+
+    data = {"username": username,
+            "email": email,
+            "password": password
+            }
+    
+    return data
+

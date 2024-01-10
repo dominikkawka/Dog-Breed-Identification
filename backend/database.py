@@ -43,6 +43,7 @@ async def update_breed(predictedBreed, image, actualBreed):
 #   USERS
 #
 #------------------------
+
 async def fetch_all_users():
     users = []
     cursor = userCollection.find({})
@@ -50,7 +51,11 @@ async def fetch_all_users():
         users.append(user(**document))
     return users
 
-def save_user():
+async def fetch_user_by_username(username):
+    document = await userCollection.find_one({"username":username}, {'_id': 0})
+    return document
+
+def create_user(user):
     document = user
     result = userCollection.insert_one(document)
     return result
