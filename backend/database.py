@@ -56,6 +56,7 @@ async def fetch_user_by_username(username):
     return document
 
 def create_user(user):
+    #if user already exists in collection, return 409 conflict error
     document = user
     result = userCollection.insert_one(document)
     return result

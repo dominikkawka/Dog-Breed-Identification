@@ -6,6 +6,7 @@ import random
 import base64
 from PIL import Image
 import io
+import bcrypt
 
 import commonVariables as val
 
@@ -56,10 +57,13 @@ def createUser(username, email, password):
     #user validation, is username/email taken? is email valid? etc.
 
     #password encryption
+    passw = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hash = bcrypt.hashpw(passw, salt)
 
     data = {"username": username,
             "email": email,
-            "password": password
+            "password": hash
             }
     
     return data
