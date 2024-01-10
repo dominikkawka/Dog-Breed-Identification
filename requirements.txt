@@ -6,3 +6,4 @@ python-multipart
 motor
 opencv-python
 protobuf
+bcrypt

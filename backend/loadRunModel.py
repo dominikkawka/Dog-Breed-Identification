@@ -6,6 +6,7 @@ import random
 import base64
 from PIL import Image
 import io
+import bcrypt
 
 import commonVariables as val
 
@@ -31,7 +32,7 @@ def modelPrediction(dogBreedImage):
     #print(score) 
     #print("--------")
 
-    confidence = 100 * np.max(score)
+    confidence = len(val.breedLabel) * np.max(score)
     confidencePercentage = ("{:.2f}").format(confidence) #+ "%"
 
     data = {"predictedBreed": val.breedLabel[np.argmax(score)],
@@ -51,3 +52,19 @@ def webcamBase64toJPG(base64String):
     result = modelPrediction(result)
     return result
 #data:image/jpeg;base64,
+
+def createUser(username, email, password):
+    #user validation, is username/email taken? is email valid? etc.
+
+    #password encryption
+    passw = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hash = bcrypt.hashpw(passw, salt)
+
+    data = {"username": username,
+            "email": email,
+            "password": hash
+            }
+    
+    return data
+
