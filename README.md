@@ -1,6 +1,8 @@
 # Dog Breed Identifier using tensorflow image classification. 
 
-#### Database used: [Stanford Dogs Dataset](https://www.kaggle.com/datasets/jessicali9530/stanford-dogs-dataset)
+#### Dataset used: [Stanford Dogs Dataset](https://www.kaggle.com/datasets/jessicali9530/stanford-dogs-dataset)
+
+I've also used other images for extra dog breeds. I will create a link to a google drive featuring the latest built models. 
 
 ## FARM Stack
 - FastAPI

@@ -44,4 +44,29 @@ const patchCorrectBreed = async (predictedBreed, imageName, actualBreed) => {
   }
 };
 
-export { uploadImage, getPrediction, patchCorrectBreed };
+const loginUser = async (username, password) => {
+  try {
+    const response = await axios.post('http://localhost:8000/loginUser', {
+      'username': username,
+      'password': password
+    });
+    return response.data
+  } catch (error) {
+    throw error
+  }
+};
+
+const createUser = async (username, email, password) => {
+  try {
+    const response = await axios.post('http://localhost:8000/createUser', {
+      'username': username,
+      'email': email,
+      'password': password
+    });
+    return response.data
+  } catch (error) {
+    throw error
+  }
+};
+
+export { uploadImage, getPrediction, patchCorrectBreed, loginUser, createUser };

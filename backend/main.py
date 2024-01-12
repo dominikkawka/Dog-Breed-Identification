@@ -64,6 +64,11 @@ async def createUser(user: model.user):
    database.create_user(result)
    return result
 
+@app.post("/loginUser", response_model=model.userLogin)
+async def loginUser(user: model.userLogin):
+   result = loadRunModel.loginUser(user.username, user.password)
+   return result
+
 @app.get("/allUsers")
 async def allUsers(): 
    response = await database.fetch_all_users()
