@@ -20,3 +20,8 @@ class user(BaseModel):
     email: str
     password: str
     _id: int
+
+class userLogin(BaseModel):
+    username: str
+    password: str
+    _id: int

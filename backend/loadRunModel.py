@@ -9,6 +9,7 @@ import io
 import bcrypt
 
 import commonVariables as val
+import database
 
 def modelPrediction(dogBreedImage):
     gpu_devices = tf.config.experimental.list_physical_devices('GPU')
@@ -68,3 +69,5 @@ def createUser(username, email, password):
     
     return data
 
+def loginUser(username, password):
+    return 1
