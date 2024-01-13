@@ -337,5 +337,10 @@ const dogBreeds = [
   { "breed": "Mexican Hairless" },
   { "breed": "Dingo" },
   { "breed": "Dhole" },
-  { "breed": "African Hunting Dog" }
+  { "breed": "African Hunting Dog" },
+  { "breed": "Shiba Inu" },
+  { "breed": "Dalmatian" },
+  { "breed": "Leonberger" },
+  { "breed": "Briard" },
+  { "breed": "Affenpinscher" },
 ]

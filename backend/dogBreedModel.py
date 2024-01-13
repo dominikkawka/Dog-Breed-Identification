@@ -99,7 +99,7 @@ val_loss = hist.history['val_loss']
 
 # In TF2.15, the .keras file will infinately stall when trying to analyse a photo.
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.keras')
-model.save('model/InceptionV3-2.15-28Dec-Augmented.h5')
+model.save('model/InceptionV3-2.15-13Jan-125-Augmented.h5')
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.tf')
 
 fig = plt.figure()
