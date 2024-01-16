@@ -66,8 +66,16 @@ async def createUser(user: model.user):
 
 @app.post("/loginUser", response_model=model.userLogin)
 async def loginUser(user: model.userLogin):
-   result = loadRunModel.loginUser(user.username, user.password)
-   return result
+   response = await database.fetch_user_by_username(user.username)
+   if (response is None):
+      raise HTTPException(status_code=409, detail='username does not exist')
+   else:
+      encryptedPassword =  str(response["password"]).replace("b'", "").replace("'", "")
+      result = loadRunModel.comparePasswords(user.password, encryptedPassword)
+      if (result):
+         return response
+      else:
+         raise HTTPException(status_code=409, detail='invalid password')
 
 @app.get("/allUsers")
 async def allUsers(): 
@@ -77,4 +85,7 @@ async def allUsers():
 @app.get("/getUser")
 async def getUser(username):
    response = await database.fetch_user_by_username(username)
-   return response
+   if (response is None):
+      raise HTTPException(status_code=409, detail='username does not exist')
+   else:
+      return response

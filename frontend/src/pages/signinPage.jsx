@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import backgroundImage from '../images/goldenRetriever.jpg'
+import { loginUser } from '../api/api';
 
 function Copyright(props) {
   return (
@@ -35,10 +36,13 @@ export default function SignInSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    let username = data.get('userName')
+    let password = data.get('password')
+
+    loginUser(username, password)
+
+    console.log(username, password);
   };
 
   return (
@@ -80,10 +84,10 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="userName"
+                label="Username"
+                name="userName"
+                autoComplete="user"
                 autoFocus
               />
               <TextField

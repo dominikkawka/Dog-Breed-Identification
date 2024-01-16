@@ -69,5 +69,10 @@ def createUser(username, email, password):
     
     return data
 
-def loginUser(username, password):
-    return 1
+def comparePasswords(password, encryptedPassword):
+    passw = password.encode('utf-8')
+    encrpted = encryptedPassword.encode('utf-8')
+    if bcrypt.checkpw(passw, encrpted):
+        return True
+    else:
+        return False
