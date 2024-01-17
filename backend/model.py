@@ -5,12 +5,18 @@ class prediction(BaseModel):
     confidence: float
     actualBreed: str
     image: str
+    username: str
     _id: int
 
 class submitFeedbackPrediction(BaseModel):
     predictedBreed: str
     actualBreed: str
     image: str
+
+class addUserToPrediction(BaseModel):
+    predictedBreed: str
+    image: str
+    username: str
 
 class webcamImage(BaseModel):
     image: str
