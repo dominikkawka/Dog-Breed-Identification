@@ -12,7 +12,7 @@ import commonVariables as val
 number_of_breeds = len(val.breedLabel)
 batch_size = 64
 seed = 10
-epochs = 80
+epochs = 120
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
@@ -83,7 +83,7 @@ customOptimizer = Adam(learning_rate=0.001)
 model.compile(optimizer=customOptimizer, loss=tf.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])
 
 earlyStop = tf.keras.callbacks.EarlyStopping(
-  monitor="val_accuracy",
+  monitor="accuracy",
   patience=10,
   mode="max",
   start_from_epoch=40
@@ -99,7 +99,7 @@ val_loss = hist.history['val_loss']
 
 # In TF2.15, the .keras file will infinately stall when trying to analyse a photo.
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.keras')
-model.save('model/InceptionV3-2.15-13Jan-125-Augmented.h5')
+model.save('model/InceptionV3-2.15-17Jan-122-Augmented.h5')
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.tf')
 
 fig = plt.figure()

@@ -9,7 +9,6 @@ import io
 import bcrypt
 
 import commonVariables as val
-import database
 
 def modelPrediction(dogBreedImage):
     gpu_devices = tf.config.experimental.list_physical_devices('GPU')
@@ -40,6 +39,7 @@ def modelPrediction(dogBreedImage):
             "confidence": confidencePercentage,
             "actualBreed": dogBreedImage,
             "image": dogBreedImage,
+            "username": 'guest'
             }
     
     #return print(data)
