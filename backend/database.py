@@ -38,6 +38,13 @@ async def update_breed(predictedBreed, image, actualBreed):
     document = await predictionCollection.update_one(query, update)
     return document
 
+async def patch_user_to_prediction(predictedBreed, image, username):
+    query = {"predictedBreed": predictedBreed, "image":image}
+    update= {"$set": {"username": username}}
+
+    document = await predictionCollection.update_one(query, update)
+    return document
+
 #------------------------
 #
 #   USERS

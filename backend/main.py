@@ -58,6 +58,11 @@ async def patchCorrectBreed(correctBreed: model.submitFeedbackPrediction):
    response = await database.update_breed(correctBreed.predictedBreed, correctBreed.image, correctBreed.actualBreed)
    return response
 
+@app.patch("/predictionUser")
+async def patchUserToPrediction(addUserToPred: model.addUserToPrediction):
+   response = await database.patch_user_to_prediction(addUserToPred.predictedBreed, addUserToPred.image, addUserToPred.username)
+   return response
+
 @app.post("/createUser", response_model=model.user)
 async def createUser(user: model.user):
    result = loadRunModel.createUser(user.username, user.email, user.password)
