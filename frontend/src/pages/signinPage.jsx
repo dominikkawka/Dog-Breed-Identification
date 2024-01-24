@@ -28,8 +28,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
@@ -40,9 +38,12 @@ export default function SignInSide() {
     let username = data.get('userName')
     let password = data.get('password')
 
-    loginUser(username, password)
-
-    console.log(username, password);
+    try {
+      loginUser(username, password)
+      sessionStorage.setItem("username", username)
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   return (

@@ -94,3 +94,8 @@ async def getUser(username):
       raise HTTPException(status_code=409, detail='username does not exist')
    else:
       return response
+   
+@app.get("/userPredictions")
+async def getUserPredictions(username):
+   response = await database.fetch_predictions_from_users(username)
+   return response

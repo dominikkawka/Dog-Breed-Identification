@@ -67,3 +67,10 @@ def create_user(user):
     document = user
     result = userCollection.insert_one(document)
     return result
+
+async def fetch_predictions_from_users(username):
+    predictions = []
+    cursor = predictionCollection.find({"username":username}, {'_id': 0})
+    async for document in cursor:
+        predictions.append(prediction(**document))
+    return predictions

@@ -26,7 +26,8 @@ const SiteHeader = ({ history }) => {
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
-    { label: "Sign in", path: "/signin" }
+    { label: "Sign in", path: "/signin" },
+    { label: "History", path: "/history" }
   ];
 
   const handleMenuSelect = (pageURL) => {
