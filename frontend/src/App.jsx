@@ -7,6 +7,7 @@ import FooterBar from './components/FooterBar/FooterBar';
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import SignUp from './pages/signupPage';
 import SignInSide from './pages/signinPage';
+import HistoryPage from './pages/HistoryPage';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/history" element={<HistoryPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignInSide />} />
         <Route path="*" element={ <Navigate to="/" /> } />

@@ -44,6 +44,23 @@ const patchCorrectBreed = async (predictedBreed, imageName, actualBreed) => {
   }
 };
 
+const patchUsernameToPrediction = async (predictedBreed, imageName, username) => {
+  try {
+    const response = await axios.patch('http://localhost:8000/predictionUser', {
+        'predictedBreed': predictedBreed,
+        'image': imageName,
+        'username': username
+      });
+    return response.data;
+  } catch (error) {
+    console.error('Error patching correct breed:', error);
+    console.log("prediction: "+ predictedBreed)
+    console.log("image name: "+ imageName)
+    console.log("username: "+ username)
+    throw error;
+  }
+}
+
 const loginUser = async (username, password) => {
   try {
     const response = await axios.post('http://localhost:8000/loginUser', {
@@ -69,4 +86,4 @@ const createUser = async (username, email, password) => {
   }
 };
 
-export { uploadImage, getPrediction, patchCorrectBreed, loginUser, createUser };
+export { uploadImage, getPrediction, patchCorrectBreed, patchUsernameToPrediction, loginUser, createUser };

@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import axios from 'axios'
 //import SelectCorrectBreed from '../SelectCorrectBreed/SelectCorrectBreed'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { uploadImage, getPrediction, patchCorrectBreed } from '../../api/api'
+import { uploadImage, getPrediction, patchCorrectBreed, patchUsernameToPrediction } from '../../api/api'
 import { Button, Typography, Card, CardContent, CardMedia, Box , TextField} from '@mui/material';
 import './imageAnimation.css';
 
@@ -60,6 +60,16 @@ function FileForm() {
       }
     };
 
+    const saveSubmission = async () => {
+      let username = sessionStorage.getItem("username")
+      try {
+        const response = await patchUsernameToPrediction(prediction, image.name, username)
+        if (response) {
+        }
+      } catch (error) {
+      }
+    }
+
     const [value, setValue] = React.useState(''); 
     const [open, toggleOpen] = React.useState(false);
   
@@ -97,6 +107,10 @@ function FileForm() {
         <br />
         <Button variant="contained" onClick={handlePredictionResults}>
           View Prediction Results
+        </Button>
+        <br />
+        <Button variant="contained" onClick={saveSubmission}>
+          Save Submission to History
         </Button>
         <Typography>
           Predicted Breed: {prediction} + Confidence: {confidence}
