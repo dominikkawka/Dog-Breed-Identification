@@ -23,12 +23,26 @@ const SiteHeader = ({ history }) => {
   
   const navigate = useNavigate();
 
+  let username = sessionStorage.getItem("username")
+  console.log("logged in as..." + username)
+
+  const logout = () => {
+    sessionStorage.removeItem("username")
+  }
+
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
     { label: "Sign in", path: "/signin" },
-    { label: "History", path: "/history" }
   ];
+
+  const menuOptionsUser = [
+    { label: "Home", path: "/" },
+    { label: "About", path: "/about" },
+    { label: "History", path: "/history" },
+    //{ label: "Logout", onClick: logout},
+    { label: "Sign in", path: "/signin" }
+  ]
 
   const handleMenuSelect = (pageURL) => {
     navigate(pageURL, { replace: true });
@@ -71,7 +85,7 @@ const SiteHeader = ({ history }) => {
                   open={open}
                   onClose={() => setAnchorEl(null)}
                 >
-                  {menuOptions.map((opt) => (
+                  {(username ? menuOptionsUser : menuOptions).map((opt) => (
                     <MenuItem
                       key={opt.label}
                       onClick={() => handleMenuSelect(opt.path)}
@@ -83,7 +97,7 @@ const SiteHeader = ({ history }) => {
               </>
             ) : (
               <>
-                {menuOptions.map((opt) => (
+                {(username ? menuOptionsUser : menuOptions).map((opt) => (
                   <Button
                     key={opt.label}
                     color="inherit"
@@ -94,6 +108,7 @@ const SiteHeader = ({ history }) => {
                 ))}
               </>
             )}
+            <p>{username}</p>
         </Toolbar>
       </AppBar>
       <Offset />

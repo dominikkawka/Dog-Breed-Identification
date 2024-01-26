@@ -1,4 +1,5 @@
 import axios from 'axios';
+import React, { createContext, useContext } from 'react';
 
 const uploadImage = async (image) => {
   const formData = new FormData();
@@ -69,6 +70,7 @@ const loginUser = async (username, password) => {
     });
     return response.data
   } catch (error) {
+    //console.log(error.response.data.detail)
     throw error
   }
 };

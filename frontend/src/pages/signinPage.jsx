@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,38 +12,27 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import backgroundImage from '../images/goldenRetriever.jpg'
 import { loginUser } from '../api/api';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     let username = data.get('userName')
     let password = data.get('password')
-
+    
     try {
-      loginUser(username, password)
-      sessionStorage.setItem("username", username)
+      await loginUser(username, password)   
+      sessionStorage.setItem("username", username)   
     } catch (error) {
-      console.error(error)
+      setErrorMessage(JSON.stringify(error.response.data.detail))
     }
+    
   };
 
   return (
@@ -101,6 +90,9 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
               />
+              <Typography>
+                {errorMessage ? errorMessage : ''}
+              </Typography>
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
@@ -125,7 +117,6 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
