@@ -1,6 +1,8 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
+import re
+
 import loadRunModel
 import database
 import model
@@ -65,6 +67,29 @@ async def patchUserToPrediction(addUserToPred: model.addUserToPrediction):
 
 @app.post("/createUser", response_model=model.user)
 async def createUser(user: model.user):
+   #if username is < 4 characters long
+   if (len(user.username) < 4):
+      raise HTTPException(status_code=409, detail="username requires 4 or more characters.")
+   
+   #if username is taken
+   checkUsername = await database.fetch_user_by_username(user.username)
+   if (checkUsername is not None):
+      raise HTTPException(status_code=409, detail="username already exists.")
+
+   #if password is < 6 long
+   if (len(user.password) <= 6):
+      raise HTTPException(status_code=409, detail="password is too short.")
+   
+   #does password contain numbers?
+   passwordRegex = "^(?=.*[0-9].*[0-9])[a-zA-Z0-9]{6,}$"
+   if not (re.fullmatch(passwordRegex, user.password)):
+      raise HTTPException(status_code=409, detail="password must contain at least 6 characters and 2 numbers.")
+
+   #is email valid?
+   emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+   if not (re.fullmatch(emailRegex, user.email)):
+      raise HTTPException(status_code=409, detail="email not valid.")
+   
    result = loadRunModel.createUser(user.username, user.email, user.password)
    database.create_user(result)
    return result
