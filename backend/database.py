@@ -1,6 +1,6 @@
 import motor.motor_asyncio
-from model import prediction, user
-import commonVariables as val
+from .model import prediction, user
+from backend import commonVariables as val
 
 uri = val.uri
 client = motor.motor_asyncio.AsyncIOMotorClient(uri)

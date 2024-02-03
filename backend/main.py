@@ -3,9 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import re
 
-import loadRunModel
-import database
-import model
+from backend import loadRunModel
+from backend import database
+from backend import model
 
 app = FastAPI()
 
