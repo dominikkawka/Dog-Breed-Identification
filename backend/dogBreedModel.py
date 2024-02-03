@@ -7,7 +7,7 @@ from tensorflow.keras.metrics import Precision, Recall, BinaryAccuracy
 from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras.optimizers import Adam
 
-import commonVariables as val
+from backend import commonVariables as val
 
 number_of_breeds = len(val.breedLabel)
 batch_size = 64

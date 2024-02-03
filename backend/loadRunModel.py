@@ -8,7 +8,7 @@ from PIL import Image
 import io
 import bcrypt
 
-import commonVariables as val
+from backend import commonVariables as val
 
 def modelPrediction(dogBreedImage):
     gpu_devices = tf.config.experimental.list_physical_devices('GPU')
