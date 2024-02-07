@@ -24,7 +24,7 @@ function WebcamFeed() {
     imgMetaData = image.split(",")
     splitImgMetaData = imgMetaData[1]
     
-    axios.post( "http://localhost:8000/webcamImage", {"image": splitImgMetaData}) 
+    axios.post( `${import.meta.env.VITE_API_URL}/webcamImage`, {"image": splitImgMetaData}) 
     .then(r => console.log(r.status))
     .catch(e => console.log(e)); 
     console.log(splitImgMetaData) 

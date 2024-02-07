@@ -7,7 +7,7 @@ const HistoryPage = () => {
 
   const fetchUserPredictions = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/userPredictions` , {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/userPredictions` , {
         params: {
           username: username,
       }})
