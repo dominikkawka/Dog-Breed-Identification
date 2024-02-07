@@ -1,12 +1,11 @@
 import axios from 'axios';
-import React, { createContext, useContext } from 'react';
 
 const uploadImage = async (image) => {
   const formData = new FormData();
   formData.append('image', image);
 
   try {
-    const response = await axios.post('http://localhost:8000/uploadImage', formData);
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/uploadImage`, formData);
     return response.data;
   } catch (error) {
     console.error('Error uploading image:', error);
@@ -16,7 +15,7 @@ const uploadImage = async (image) => {
 
 const getPrediction = async (imageName) => {
   try {
-    const response = await axios.get('http://localhost:8000/getPrediction', {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/getPrediction`, {
       params: {
         image: imageName,
       },
@@ -30,7 +29,7 @@ const getPrediction = async (imageName) => {
 
 const patchCorrectBreed = async (predictedBreed, imageName, actualBreed) => {
   try {
-    const response = await axios.patch('http://localhost:8000/prediction', {
+    const response = await axios.patch(`${import.meta.env.VITE_API_URL}/prediction`, {
         'predictedBreed': predictedBreed,
         'actualBreed': actualBreed,
         'image': imageName,
@@ -47,7 +46,7 @@ const patchCorrectBreed = async (predictedBreed, imageName, actualBreed) => {
 
 const patchUsernameToPrediction = async (predictedBreed, imageName, username) => {
   try {
-    const response = await axios.patch('http://localhost:8000/predictionUser', {
+    const response = await axios.patch(`${import.meta.env.VITE_API_URL}/predictionUser`, {
         'predictedBreed': predictedBreed,
         'image': imageName,
         'username': username
@@ -63,8 +62,9 @@ const patchUsernameToPrediction = async (predictedBreed, imageName, username) =>
 }
 
 const loginUser = async (username, password) => {
+  console.log(import.meta.env.VITE_API_URL) // no workey...
   try {
-    const response = await axios.post('http://localhost:8000/loginUser', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/loginUser`, {
       'username': username,
       'password': password
     });
@@ -77,7 +77,7 @@ const loginUser = async (username, password) => {
 
 const createUser = async (username, email, password) => {
   try {
-    const response = await axios.post('http://localhost:8000/createUser', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/createUser`, {
       'username': username,
       'email': email,
       'password': password

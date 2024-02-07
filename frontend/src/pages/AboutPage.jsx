@@ -7,7 +7,7 @@ const AboutPage = () => {
 
   const fetchAllPredictions = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/allPredictions`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/allPredictions`);
       console.log(response.data);
       setAmount(response.data.length);
     } catch (error) {
@@ -17,7 +17,7 @@ const AboutPage = () => {
 
   const fetchUserPredictions = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/allUsers`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/allUsers`);
       console.log(response.data);
       setUserAmount(response.data.length);
     } catch (error) {
