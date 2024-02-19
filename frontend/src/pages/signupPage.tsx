@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createUser } from '../api/api';
+import { AxiosError } from 'axios' 
+
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -18,7 +20,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const [errorMessage, setErrorMessage] = useState('')
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
@@ -29,7 +31,13 @@ export default function SignUp() {
     try {
       await createUser(username, email, password)   
     } catch (error) {
-      setErrorMessage(JSON.stringify(error.response.data.detail))
+      if (error instanceof AxiosError) {
+        let errorMessage = error.response?.data.detail; 
+        console.log(errorMessage)
+        setErrorMessage(JSON.stringify(errorMessage))
+      } else {
+        setErrorMessage("Unknown Error Occured")
+      }
     }
     //console.log(username, email, password);
   };
