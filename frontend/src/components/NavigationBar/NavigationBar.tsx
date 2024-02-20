@@ -28,6 +28,7 @@ const SiteHeader = ({ }) => {
 
   const logout = () => {
     sessionStorage.removeItem("username")
+    navigate("/", { replace: true })
   }
 
   const menuOptions = [
@@ -40,27 +41,24 @@ const SiteHeader = ({ }) => {
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
     { label: "History", path: "/history" },
-    //{ label: "Logout", onClick: logout},
-    { label: "Sign in", path: "/signin" }
   ]
-
-  const handleMenuSelect = (pageURL) => {
+ 
+  const handleMenuSelect = (pageURL: string) => {
     navigate(pageURL, { replace: true });
   };
 
-  const handleMenu = (event) => {
+  const handleMenu = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
   return (
     <>
-      <AppBar position="fixed" sx={{ background: "#004385", color: "#DBE4EE"}}>
+      <AppBar position="fixed" sx={{ background: "#f2f2f2", color: "#092d66"}}>
         <Toolbar>
-          <Typography variant="h4" sx={{ paddingLeft: 1, paddingRight: 4 }}>
-            DBI
-          </Typography>
+          
             {isMobile ? (
               <>
+              <Typography variant="h4" sx={{ paddingLeft: 1, paddingRight: 4 }}>DBI</Typography>
                 <IconButton
                   aria-label="menu"
                   aria-controls="menu-appbar"
@@ -97,8 +95,14 @@ const SiteHeader = ({ }) => {
               </>
             ) : (
               <>
+              <Typography variant="h4" sx={{ paddingLeft: '12.5%', paddingRight: 4 }}>DBI </Typography>
                 {(username ? menuOptionsUser : menuOptions).map((opt) => (
                   <Button
+                    sx={{
+                      "&:hover": {
+                        color: '#1183ed'
+                      }
+                    }}
                     key={opt.label}
                     color="inherit"
                     onClick={() => handleMenuSelect(opt.path)}
@@ -106,9 +110,17 @@ const SiteHeader = ({ }) => {
                     {opt.label}
                   </Button>
                 ))}
+                {username ? (<Button 
+                sx={{
+                  "&:hover": {
+                    color: '#1183ed'
+                  },
+                  color: "#092d66"
+                }}
+                onClick={logout}>Log Out</Button>) : null}
               </>
             )}
-            <p>{username}</p>
+            <Typography sx={{ ml: 'auto', paddingRight: '13.5%' }}>{username}</Typography>
         </Toolbar>
       </AppBar>
       <Offset />
