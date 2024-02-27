@@ -1,8 +1,10 @@
 import React from "react";
-import FileForm from "../components/FileForm/FileForm";
-import WebcamFeed from "../components/WebcamFeed/WebcamFeed";
 import HomeHeader from "../components/HomeHeader/homeHeader";
+import HomeStats from "../components/HomeStats/homeStats";
+import HomeFAQ from "../components/HomeFAQ/HomeFAQ";
+
 import { Divider } from "@mui/material";
+
 
 const HomePage = () => {
   return (
@@ -11,12 +13,12 @@ const HomePage = () => {
       <HomeHeader />
       <Divider />
       <Divider />
-      <p>Upload an image file!</p>
-      <FileForm/>
-      <br />
-      <p>Or... you can just take a picture!</p>
-      <br />
-      <WebcamFeed />
+      <HomeStats />
+      <Divider />
+      <Divider />
+      <HomeFAQ />
+      <Divider />
+      <Divider />
       </div>
    </>
   );
