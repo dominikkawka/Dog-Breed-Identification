@@ -18,6 +18,18 @@ export default function HomeFAQ() {
     };
 
   return (
+    <Box
+      id="hero"
+      sx={(theme) => ({
+        width: '100%',
+        backgroundImage:
+          theme.palette.mode === 'light'
+            ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
+            : 'linear-gradient(#02294F, #090E10)',
+        backgroundSize: '100% ',
+        backgroundRepeat: 'no-repeat',
+      })}
+    >
     <Container
       id="faq"
       sx={{
@@ -136,5 +148,6 @@ export default function HomeFAQ() {
         </Accordion>
       </Box>
     </Container>
+    </Box>
   );
 }
