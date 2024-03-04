@@ -4,6 +4,7 @@ import axios from 'axios'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { uploadImage, getPrediction, patchCorrectBreed, patchUsernameToPrediction } from '../../api/api'
 import { Button, Typography, Card, CardContent, CardMedia, Box , TextField} from '@mui/material';
+import { Container } from '@mui/material';
 import './imageAnimation.css';
 
 import Dialog from '@mui/material/Dialog';
@@ -70,7 +71,7 @@ function FileForm() {
       }
     }
 
-    const [value, setValue] = React.useState(''); 
+    const [value, setValue] = React.useState(); 
     const [open, toggleOpen] = React.useState(false);
   
     const handleClose = () => {
@@ -88,6 +89,18 @@ function FileForm() {
 
    return (
       <>
+          <Container
+      id="stats"
+      sx={{
+        pt: { xs: 4, sm: 12 },
+        pb: { xs: 8, sm: 16 },
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: { xs: 3, sm: 6 },
+      }}
+    >
         <form onSubmit={handleSubmit}>
           <input
             type="file"
@@ -225,6 +238,7 @@ function FileForm() {
         <Button variant="contained" onClick={handleSubmitActualBreed}>
           Submit Actual Breed
         </Button>
+        </Container>
       </>
     );
   }
