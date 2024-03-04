@@ -14,7 +14,8 @@ const ImageUploadPage = () => {
       <Divider />
       <Divider />
       <DragDropImage />
-      <FileForm />
+      <Divider />
+      <Divider />
       </div>
    </>
   );

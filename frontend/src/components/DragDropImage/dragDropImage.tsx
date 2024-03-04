@@ -1,23 +1,17 @@
 import React, {useState, useEffect} from 'react'
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Button, Card, CardMedia, CardContent } from '@mui/material';
-import { uploadImage } from '../../api/api';
+import { uploadImage, getPrediction, patchCorrectBreed, patchUsernameToPrediction } from '../../api/api';
 import { useDropzone } from 'react-dropzone';
-import './dragDropImage.css'
-
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function DragDropImage() {
     const [image, setImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [prediction, setPrediction] = useState<string>('');
     const [confidence, setConfidence] = useState<string>('');
+    const [uploadError, setUploadError] = useState<string>('')
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,16 +24,47 @@ export default function DragDropImage() {
         }
       };
 
-    const handleImageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setImage(event.target.files![0]);
-        setImagePreview(URL.createObjectURL(event.target.files![0]));
+      const handleImageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files![0].type === 'image/png' || event.target.files![0].type === 'image/jpeg') {
+            setUploadError('')
+            setImage(event.target.files![0]);
+            setImagePreview(URL.createObjectURL(event.target.files![0]));
+        } else {
+            setUploadError('Unsupported file type. Please upload a PNG or JPEG image.')
+        }
     };
 
     const onDrop = (acceptedFiles: File[]) => {
         const selectedImage = acceptedFiles[0];
-        setImage(selectedImage);
-        setImagePreview(URL.createObjectURL(selectedImage));
+        if (selectedImage.type === 'image/png' || selectedImage.type === 'image/jpeg') {
+            setUploadError('')
+            setImage(selectedImage);
+            setImagePreview(URL.createObjectURL(selectedImage));
+        } else {
+            setUploadError('Unsupported file type. Please upload a PNG or JPEG image.')
+            console.error('Unsupported file type. Please upload a PNG or JPEG image.');
+        }
     };
+
+    const handlePredictionResults = async () => {
+        try {
+          const response = await getPrediction(image.name);
+          setPrediction(response.predictedBreed || '');
+          setConfidence(response.confidence || '');
+        } catch (error) {
+          // Handle error
+        }
+      };
+  
+      const saveSubmission = async () => {
+        let username = sessionStorage.getItem("username")
+        try {
+          const response = await patchUsernameToPrediction(prediction, image.name, username)
+          if (response) {
+          }
+        } catch (error) {
+        }
+      }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
@@ -51,8 +76,8 @@ export default function DragDropImage() {
         <Container {...getRootProps()}
               sx={{
                 mt: { xs: 4, sm: 4 },
-                pt: { xs: 4, sm: 12 },
-                pb: { xs: 8, sm: 16 },
+                pt: { xs: 4, sm: 4 },
+                pb: { xs: 4, sm: 4 },
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
@@ -75,13 +100,17 @@ export default function DragDropImage() {
               </Typography>
               <Box 
         sx={{ alignContent: "center"}}>
+        {uploadError && 
+            <Typography>
+                {uploadError}
+            </Typography>
+        }
         {imagePreview && (
-          <Card sx={{ height: 256, width: 192, padding: 1 }}>
+          <Card sx={{ height: 256, width: 192, padding: 1, backgroundColor: '#f0f0f0' }}>
             <CardMedia
               component="img"
               alt="Prediction"
               image={imagePreview}
-              className="animation"
               sx={{ height: 192, width: 192 }}
             />
             <CardContent>
@@ -95,9 +124,31 @@ export default function DragDropImage() {
             </>
           )}
         </Container>
+        <Container
+        sx={{
+            mt: { xs: 1, sm: 1 },
+            pt: { xs: 4, sm: 1 },
+            pb: { xs: 8, sm: 16 },
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: { xs: 3, sm: 6 },
+          }}
+        >
         <Button type="submit" variant="contained" onClick={handleSubmit}>
             Submit Image
         </Button>
+        <Button variant="contained" onClick={handlePredictionResults}>
+          View Prediction Results
+        </Button>
+        <Button variant="contained" onClick={saveSubmission}>
+          Save Submission to History
+        </Button>
+        <Typography>
+          Predicted Breed: {prediction} + Confidence: {confidence}
+        </Typography>
+        </Container>
       </form>
         
     </>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, {useState, useRef, useCallback} from "react";
 import Webcam from "react-webcam";
+import { Container } from "@mui/system";
 
 function WebcamFeed() {
   const webcamRef = useRef(null);
@@ -32,6 +33,21 @@ function WebcamFeed() {
 
     return (
       <div className="Container">
+         <Container
+              sx={{
+                mt: { xs: 4, sm: 4 },
+                mb: { xs: 4, sm: 4 },
+                pt: { xs: 4, sm: 4 },
+                pb: { xs: 4, sm: 4 },
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: { xs: 3, sm: 6 },
+                backgroundColor: 'white',
+                border: 2
+              }}
+            >
         {image === null ? (
           <>
             <Webcam
@@ -52,6 +68,7 @@ function WebcamFeed() {
             <button onClick={handleSubmit}>Submit</button>
           </>
         )}
+        </Container>
       </div>
     );
   }

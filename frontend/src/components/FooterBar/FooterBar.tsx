@@ -83,7 +83,7 @@ export default function FooterBar() {
           <Link color="text.secondary" href="/ImageUpload">
             Upload Image
           </Link>
-          <Link color="text.secondary" href="#">
+          <Link color="text.secondary" href="/webcamUpload">
             Submit Photo
           </Link>
           <Link color="text.secondary" href="/signin">

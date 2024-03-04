@@ -9,6 +9,7 @@ import SignUp from './pages/signupPage';
 import SignInSide from './pages/signinPage';
 import HistoryPage from './pages/HistoryPage';
 import ImageUploadPage from './pages/ImageUploadPage';
+import WebcamUploadPage from './pages/webcamUploadPage';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignInSide />} />
         <Route path="/imageUpload" element={<ImageUploadPage />} />
+        <Route path="/webcamUpload" element={<WebcamUploadPage />} />
         <Route path="*" element={ <Navigate to="/" /> } />
       </Routes>
       <FooterBar />

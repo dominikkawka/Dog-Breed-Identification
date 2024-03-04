@@ -70,7 +70,7 @@ export default function HomeHeader() {
           spacing={1}
           useFlexGap
           sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}>
-        <Button variant="outlined" >
+        <Button variant="outlined" href='webcamUpload'>
           Webcam
         </Button>
         </Stack>
