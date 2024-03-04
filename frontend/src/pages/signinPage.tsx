@@ -7,33 +7,43 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { loginUser } from '../api/api';
+import Box from '@mui/material/Box';
 
+import { loginUser } from '../api/api';
+import { AxiosError } from 'axios' 
+
+
+// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    let username = data.get('userName')
-    let password = data.get('password')
+    let username = data.get('userName') as string;
+    let password = data.get('password') as string;
     
     try {
       await loginUser(username, password)   
       sessionStorage.setItem("username", username)   
     } catch (error) {
-      setErrorMessage(JSON.stringify(error.response.data.detail))
+      if (error instanceof AxiosError) {
+        let errorMessage = error.response?.data.detail; 
+        console.log(errorMessage)
+        setErrorMessage(JSON.stringify(errorMessage))
+      } else {
+        setErrorMessage("Unknown Error Occured")
+      }
+      
     }
-    
-  };
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -57,7 +67,7 @@ export default function SignInSide() {
           <Box
             sx={{
               my: 8,
-              mx: 4,
+              mx: 12,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -69,17 +79,15 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="userName"
-                label="Username"
-                name="userName"
-                autoComplete="user"
-                autoFocus
-              />
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, mx: 24, width: '125%'}}>
+            <TextField
+                  required
+                  fullWidth
+                  id="userName"
+                  label="User Name"
+                  name="userName"
+                  autoComplete="user-name"
+                />
               <TextField
                 margin="normal"
                 required
@@ -107,9 +115,7 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+    
                 </Grid>
                 <Grid item>
                   <Link href="/signup" variant="body2">
