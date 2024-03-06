@@ -42,7 +42,8 @@ async def readWebcamFeed(base64String: model.webcamImage):
    #https://stackoverflow.com/questions/59929028/python-fastapi-error-422-with-post-request-when-sending-json-data
    result = loadRunModel.webcamBase64toJPG(base64String.image)
    database.save_prediction(result)
-   return print(result)
+   print(result)
+   return result
 
 @app.get("/allPredictions")
 async def allPredictions(): 
