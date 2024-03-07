@@ -33,13 +33,15 @@ const SiteHeader = ({ }) => {
 
   const menuOptions = [
     { label: "Home", path: "/" },
-    { label: "About", path: "/about" },
+    { label: "Upload", path: "/ImageUpload" },
+    { label: "Webcam", path: "/webcamUpload" },
     { label: "Sign in", path: "/signin" },
   ];
 
   const menuOptionsUser = [
     { label: "Home", path: "/" },
-    { label: "About", path: "/about" },
+    { label: "Upload", path: "/ImageUpload" },
+    { label: "Webcam", path: "/webcamUpload" },
     { label: "History", path: "/history" },
   ]
  

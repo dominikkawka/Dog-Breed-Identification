@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, {useState, useRef, useCallback} from "react";
 import Webcam from "react-webcam";
+import { Container } from "@mui/system";
+import { Button } from "@mui/material";
 
 function WebcamFeed() {
   const webcamRef = useRef(null);
@@ -32,6 +34,21 @@ function WebcamFeed() {
 
     return (
       <div className="Container">
+         <Container
+              sx={{
+                mt: { xs: 4, sm: 4 },
+                mb: { xs: 4, sm: 4 },
+                pt: { xs: 4, sm: 4 },
+                pb: { xs: 4, sm: 4 },
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: { xs: 3, sm: 6 },
+                backgroundColor: 'white',
+                border: 2
+              }}
+            >
         {image === null ? (
           <>
             <Webcam
@@ -43,15 +60,29 @@ function WebcamFeed() {
               ref={webcamRef}
               mirrored={true}
             />
-            <button onClick={capture}>Capture photo</button>
+            <Button variant="contained" onClick={capture}>Capture photo</Button>
           </>
         ) : (
           <>
             <img src={image} alt="screenshot" />
-            <button onClick={() => setImage(null)}>Recapture</button>
-            <button onClick={handleSubmit}>Submit</button>
+            <Button variant="contained" onClick={() => setImage(null)}>Recapture</Button>
+            
           </>
         )}
+        </Container>
+        <Container sx={{
+            mt: { xs: 1, sm: 1 },
+            pt: { xs: 4, sm: 1 },
+            pb: { xs: 8, sm: 16 },
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: { xs: 3, sm: 6 },
+          }}>
+          <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+        </Container>
+        
       </div>
     );
   }

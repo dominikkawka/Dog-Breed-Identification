@@ -10,32 +10,65 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 
-const stats = [
-  {
-    title: 'Total Users',
-    total: '30',
-    description: [
-      'Over 30 Users have registered on this site!',
-    ],
-  },
-  {
-    title: 'Dog Breeds',
-    subheader: 'Recommended',
-    total: '122',
-    description: [
-      'This model can tell apart 122 total breeds!',
-    ],
-  },
-  {
-    title: 'Total Dogs Identified',
-    total: '30',
-    description: [
-      '30 Images of dogs have been identified!',
-    ],
-  },
-];
 
 export default function HomeStats() {
+
+  const [amount, setAmount] = useState<Number>();
+  const [userAmount, setUserAmount] = useState<Number>()
+
+  const fetchAllPredictions = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/allPredictions`);
+      console.log(response.data);
+      setAmount(response.data.length);
+    } catch (error) {
+      setAmount(301)
+    }
+  };
+
+  const fetchUserPredictions = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/allUsers`);
+      console.log(response.data);
+      setUserAmount(response.data.length);
+    } catch (error) {
+      setUserAmount(301)
+    }
+  };
+
+  useEffect(() => {
+   fetchAllPredictions();
+   fetchUserPredictions();
+  }, []);
+
+  let userAmountDesc = `Over ${userAmount} Users have registered on this site!`
+  let amountDesc = `${amount} Images of dogs have been identified!`
+
+  const stats = [
+    {
+      title: 'Total Users',
+      total: userAmount,
+      description: [
+        userAmountDesc,
+      ],
+    },
+    {
+      title: 'Dog Breeds',
+      subheader: 'Recommended',
+      total: '122',
+      description: [
+        'This model can tell apart 122 total breeds!',
+      ],
+    },
+    {
+      title: 'Total Dogs Identified',
+      total: amount,
+      description: [
+        amountDesc,
+      ],
+    },
+  ];
+
   return (
     <Container
       id="stats"
