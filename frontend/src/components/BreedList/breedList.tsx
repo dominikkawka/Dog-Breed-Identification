@@ -2,6 +2,7 @@ import React from "react";
 import BreedCard from "../BreedCard/breedCard";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import { Container } from "@mui/material";
 
 interface Prediction {
   _id: { $oid: string };
@@ -19,9 +20,7 @@ interface BreedListProps {
 const BreedList: React.FC<BreedListProps> = ({ predictions }) => {
   let breedCards = predictions ? (
     predictions.map((m) => (
-      <Grid key={m._id} item xs={12} sm={6} md={4} lg={3} xl={2}>
         <BreedCard key={m._id} prediction={m} />
-      </Grid>
     ))
   ) : (
     <Grid item xs={12}>
@@ -29,7 +28,18 @@ const BreedList: React.FC<BreedListProps> = ({ predictions }) => {
     </Grid>
   );
 
-  return <Grid container>{breedCards}</Grid>;
+  return     <Container
+  id="stats"
+  sx={{
+    pt: { xs: 4, sm: 12 },
+    pb: { xs: 8, sm: 16 },
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: { xs: 3, sm: 6 },
+  }}
+><Grid container spacing={3}>{breedCards}</Grid></Container>;
 };
 
 export default BreedList;

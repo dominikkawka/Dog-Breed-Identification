@@ -1,15 +1,12 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
-import StarRateIcon from "@mui/icons-material/StarRate";
-import Grid from "@mui/material/Grid";
-import { Link } from "react-router-dom";
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 interface Prediction {
   _id: { $oid: string };
@@ -21,38 +18,47 @@ interface Prediction {
 }
 
 export default function BreedCard({ prediction }: { prediction: Prediction }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardHeader
-        title={
-          <Typography variant="h5" component="p">
-            {prediction.predictedBreed}
-          </Typography>
-        }
+    <Card
+      sx={{
+        height: 400,
+        width: isMobile ? "90%" : 256,
+        padding: 1,
+        pb: 2,
+        mb: 2,
+        ml: 2.75,
+        backgroundColor: "#fff",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <CardMedia
+        component="img"
+        alt="Prediction"
+        image={prediction.image}
+        sx={{ height: 192, width: "100%" }}
       />
-      <CardMedia sx={{ height: 500 }} image={`${prediction.image}`} />
-      <CardContent>
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
-              {prediction.actualBreed}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} Confidence: {prediction.confidence}{" "}
-            </Typography>
-          </Grid>
-        </Grid>
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {prediction.predictedBreed}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {prediction.confidence}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {prediction.actualBreed}
+        </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <Link to={`/breeds/${prediction.predictedBreed}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
-        </Link>
+      <CardActions>
+        <Button size="small" color="primary" href="/">
+          Read More...
+        </Button>
+        <Button size="small" color="secondary" href="/">
+          Delete
+        </Button>
       </CardActions>
     </Card>
   );
