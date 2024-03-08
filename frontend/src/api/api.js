@@ -62,9 +62,8 @@ const patchUsernameToPrediction = async (predictedBreed, imageName, username) =>
 }
 
 const loginUser = async (username, password) => {
-  console.log(import.meta.env.VITE_API_URL) // no workey...
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/loginUser`, {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/loginUser`, { 
       'username': username,
       'password': password
     });

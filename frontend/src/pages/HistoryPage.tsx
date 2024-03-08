@@ -27,7 +27,6 @@ const HistoryPage = () => {
   return (
     <>
       <div>
-        <p>History Page</p>
         <BreedList predictions={predictions} />
       </div>
     </>

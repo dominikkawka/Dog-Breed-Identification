@@ -53,7 +53,7 @@ export default function BreedCard({ prediction }: { prediction: Prediction }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary" href="/">
+        <Button size="small" color="primary" href={`/description/${prediction.predictedBreed}`}>
           Read More...
         </Button>
         <Button size="small" color="secondary" href="/">

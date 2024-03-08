@@ -10,6 +10,7 @@ import SignInSide from './pages/signinPage';
 import HistoryPage from './pages/HistoryPage';
 import ImageUploadPage from './pages/ImageUploadPage';
 import WebcamUploadPage from './pages/webcamUploadPage';
+import DogDescriptionPage from './pages/DogDescriptionPage';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signin" element={<SignInSide />} />
         <Route path="/imageUpload" element={<ImageUploadPage />} />
         <Route path="/webcamUpload" element={<WebcamUploadPage />} />
+        <Route path="/description/:breedName" element={<DogDescriptionPage />} />
         <Route path="*" element={ <Navigate to="/" /> } />
       </Routes>
       <FooterBar />
