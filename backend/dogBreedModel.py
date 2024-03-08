@@ -2,12 +2,12 @@ import numpy as np
 import tensorflow as tf
 from matplotlib import pyplot as plt
 from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout, RandomFlip, RandomRotation, RandomZoom, Input, BatchNormalization, Resizing,  Rescaling
+from tensorflow.keras.layers import Conv2D, GlobalAveragePooling2D, MaxPooling2D, Dense, Flatten, Dropout, RandomFlip, RandomRotation, RandomZoom, Input, BatchNormalization, Resizing,  Rescaling
 from tensorflow.keras.metrics import Precision, Recall, BinaryAccuracy
-from tensorflow.keras.applications import InceptionV3
+from tensorflow.keras.applications import InceptionV3, ResNet50V2
 from tensorflow.keras.optimizers import Adam
 
-import commonVariables as val
+from backend import commonVariables as val
 
 number_of_breeds = len(val.breedLabel)
 batch_size = 64
@@ -62,22 +62,29 @@ InceptionV3 = InceptionV3(
    input_shape=(val.image_size, val.image_size, 3)
 ) 
 
+ResNet50V2 = ResNet50V2(
+   include_top=False,
+   weights='imagenet',
+   input_shape=(val.image_size, val.image_size, 3)
+)
+
 for i in range(36):
   InceptionV3.layers.pop()
+
+#for i in range(1):
+#  ResNet50V2.layers.pop()
 
 dataAugmentation = Sequential([
    RandomFlip("horizontal_and_vertical", input_shape=(val.image_size, val.image_size, 3)),
    RandomRotation(0.2),
-   RandomZoom(0.2)
+   #RandomZoom(0.2)
 ])
 
 model = Sequential([
    dataAugmentation,
-   InceptionV3,
-
-   Dense((number_of_breeds*2), activation="relu"),
-   Dropout(0.4),
-   Flatten(),
+   #InceptionV3,
+   ResNet50V2,
+   GlobalAveragePooling2D(),
    Dense(number_of_breeds, activation='softmax'),
 ])
 
@@ -103,7 +110,7 @@ val_loss = hist.history['val_loss']
 
 # In TF2.15, the .keras file will infinately stall when trying to analyse a photo.
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.keras')
-model.save('model/InceptionV3[-36]-2.15-17Feb-122-Augmented.h5')
+model.save('model/ResNet50V2-2.15-8Mar-122-Augmented.h5')
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.tf')
 
 fig = plt.figure()

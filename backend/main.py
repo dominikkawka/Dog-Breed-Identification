@@ -55,6 +55,11 @@ async def getPrediction(image):
    response = await database.fetch_prediction_by_image_name(image)
    return response
 
+@app.get("/getDescription")
+async def fetch_dog_breed_description(dogBreed):
+   response = await database.fetch_dog_breed_description(dogBreed)
+   return response
+
 @app.patch("/prediction")
 async def patchCorrectBreed(correctBreed: model.submitFeedbackPrediction):
    #https://fastapi.tiangolo.com/tutorial/encoder/

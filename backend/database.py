@@ -8,6 +8,7 @@ client = motor.motor_asyncio.AsyncIOMotorClient(uri)
 dogBreedDatabase = client.dogBreed
 predictionCollection = dogBreedDatabase.prediction
 userCollection = dogBreedDatabase.user
+descriptionCollection = dogBreedDatabase.description
 
 #------------------------
 #
@@ -43,6 +44,10 @@ async def patch_user_to_prediction(predictedBreed, image, username):
     update= {"$set": {"username": username}}
 
     document = await predictionCollection.update_one(query, update)
+    return document
+
+async def fetch_dog_breed_description(dogBreed):
+    document = await descriptionCollection.find_one({"BreedName":dogBreed}, {'_id': 0})
     return document
 
 #------------------------
