@@ -7,7 +7,7 @@ from tensorflow.keras.metrics import Precision, Recall, BinaryAccuracy
 from tensorflow.keras.applications import InceptionV3, ResNet50V2
 from tensorflow.keras.optimizers import Adam
 
-from backend import commonVariables as val
+import commonVariables as val
 
 number_of_breeds = len(val.breedLabel)
 batch_size = 64
@@ -71,8 +71,8 @@ ResNet50V2 = ResNet50V2(
 for i in range(36):
   InceptionV3.layers.pop()
 
-#for i in range(1):
-#  ResNet50V2.layers.pop()
+for i in range(32):
+  ResNet50V2.layers.pop()
 
 dataAugmentation = Sequential([
    RandomFlip("horizontal_and_vertical", input_shape=(val.image_size, val.image_size, 3)),
@@ -110,7 +110,7 @@ val_loss = hist.history['val_loss']
 
 # In TF2.15, the .keras file will infinately stall when trying to analyse a photo.
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.keras')
-model.save('model/ResNet50V2-2.15-8Mar-122-Augmented.h5')
+model.save('model/ResNet50V2[-32]-2.15-9Mar-122-Augmented.h5')
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.tf')
 
 fig = plt.figure()

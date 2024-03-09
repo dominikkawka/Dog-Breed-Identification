@@ -2,11 +2,11 @@ FROM python:3.9
  
 WORKDIR /code
  
-COPY ./requirements.txt /code/requirements.txt
+COPY /requirements.txt /code/requirements.txt
  
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
  
-COPY ./backend /code/backend
+COPY ./ /code/backend
 
 #setting port to 5000 locally if port wasn't set before... (usually set by heroku)
 ENV PORT 5000
