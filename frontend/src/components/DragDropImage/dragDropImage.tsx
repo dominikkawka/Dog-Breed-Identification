@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { Button, Card, CardMedia, CardContent } from '@mui/material';
 import { uploadImage, getPrediction, patchCorrectBreed, patchUsernameToPrediction } from '../../api/api';
 import { useDropzone } from 'react-dropzone';
+import LinearProgressBar from '../LinearProgressBar/linearProgressBar';
 
 export default function DragDropImage() {
     const [image, setImage] = useState<File | null>(null);
@@ -12,27 +13,21 @@ export default function DragDropImage() {
     const [prediction, setPrediction] = useState<string>('');
     const [confidence, setConfidence] = useState<string>('');
     const [uploadError, setUploadError] = useState<string>('')
-
+    const [progressVisible, setProgressVisible] = useState<boolean>(false);
+    const [viewPrediction, setViewPrediction] = useState<boolean>(false);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setProgressVisible(true)
+        
         try {
           const response = await uploadImage(image!);
           if (response) {
+            setViewPrediction(true)
           }
         } catch (error) {
         }
       };
-
-      const handleImageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files![0].type === 'image/png' || event.target.files![0].type === 'image/jpeg') {
-            setUploadError('')
-            setImage(event.target.files![0]);
-            setImagePreview(URL.createObjectURL(event.target.files![0]));
-        } else {
-            setUploadError('Unsupported file type. Please upload a PNG or JPEG image.')
-        }
-    };
 
     const onDrop = (acceptedFiles: File[]) => {
         const selectedImage = acceptedFiles[0];
@@ -47,6 +42,7 @@ export default function DragDropImage() {
     };
 
     const handlePredictionResults = async () => {
+      setProgressVisible(false)
         try {
           const response = await getPrediction(image.name);
           setPrediction(response.predictedBreed || '');
@@ -139,15 +135,29 @@ export default function DragDropImage() {
         <Button type="submit" variant="contained" onClick={handleSubmit}>
             Submit Image
         </Button>
-        <Button variant="contained" onClick={handlePredictionResults}>
-          View Prediction Results
-        </Button>
-        <Button variant="contained" onClick={saveSubmission}>
-          Save Submission to History
-        </Button>
-        <Typography>
-          Predicted Breed: {prediction} + Confidence: {confidence}
-        </Typography>
+        {progressVisible && (
+          <LinearProgressBar />
+        )}
+
+        {viewPrediction && (
+          <>
+            <Button variant="contained" onClick={handlePredictionResults}>
+              View Prediction Results
+            </Button>
+            <Typography>
+              Predicted Breed: {prediction} + Confidence: {confidence}
+            </Typography>
+            <Typography>
+              If you would like to find out about your dog, you can read more here!
+            </Typography>
+            <Button variant="outlined" color="primary" href={`/description/${prediction}`}>
+                  Start now
+              </Button>
+            <Button variant="contained" onClick={saveSubmission}>
+              Save Submission to History
+            </Button>
+          </>
+        )}
         </Container>
       </form>
         
