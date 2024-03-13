@@ -14,7 +14,9 @@ interface Prediction {
   confidence: string;
   actualBreed: string;
   image: string;
+  imageFile: string;
   username: string;
+  date: string;
 }
 
 export default function BreedCard({ prediction }: { prediction: Prediction }) {
@@ -38,7 +40,7 @@ export default function BreedCard({ prediction }: { prediction: Prediction }) {
       <CardMedia
         component="img"
         alt="Prediction"
-        image={prediction.image}
+        image={prediction.imageFile}
         sx={{ height: 192, width: "100%" }}
       />
       <CardContent sx={{ flexGrow: 1 }}>
@@ -50,6 +52,9 @@ export default function BreedCard({ prediction }: { prediction: Prediction }) {
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
           {prediction.actualBreed}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {prediction.date}
         </Typography>
       </CardContent>
       <CardActions>

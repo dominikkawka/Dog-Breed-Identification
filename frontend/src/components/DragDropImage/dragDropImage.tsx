@@ -26,6 +26,7 @@ export default function DragDropImage() {
             setViewPrediction(true)
           }
         } catch (error) {
+          setViewPrediction(true)
         }
       };
 

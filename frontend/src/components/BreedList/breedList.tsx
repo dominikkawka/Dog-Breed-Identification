@@ -10,7 +10,9 @@ interface Prediction {
   confidence: string;
   actualBreed: string;
   image: string;
+  imageFile: string;
   username: string;
+  date: string;
 }
 
 interface BreedListProps {
