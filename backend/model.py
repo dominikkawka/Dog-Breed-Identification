@@ -5,7 +5,9 @@ class prediction(BaseModel):
     confidence: float
     actualBreed: str
     image: str
+    imageFile: str
     username: str
+    date: str
     _id: int
 
 class submitFeedbackPrediction(BaseModel):

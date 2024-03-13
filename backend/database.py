@@ -79,3 +79,17 @@ async def fetch_predictions_from_users(username):
     async for document in cursor:
         predictions.append(prediction(**document))
     return predictions
+
+async def fetch_predictions_from_users_by_newest_date(username):
+    predictions = []
+    cursor = predictionCollection.find({"username":username}, {'_id': 0}).sort({'date': -1})
+    async for document in cursor:
+        predictions.append(prediction(**document))
+    return predictions
+
+async def fetch_predictions_from_users_by_oldest_date(username):
+    predictions = []
+    cursor = predictionCollection.find({"username":username}, {'_id': 0}).sort({'date': 1})
+    async for document in cursor:
+        predictions.append(prediction(**document))
+    return predictions
