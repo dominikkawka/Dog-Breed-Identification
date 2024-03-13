@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import re
+import os
 
 from backend import loadRunModel
 from backend import database
@@ -33,6 +34,7 @@ async def uploadImage(image: UploadFile = File(...)):
 
       result = loadRunModel.modelPrediction(image.filename)
       database.save_prediction(result)
+      os.remove(image.filename)
       return result
    else:
       raise HTTPException(status_code=400, detail="wrong file extension, please use png or jpg")
@@ -129,4 +131,14 @@ async def getUser(username):
 @app.get("/userPredictions")
 async def getUserPredictions(username):
    response = await database.fetch_predictions_from_users(username)
+   return response
+
+@app.get("/userPredictionsNewest")
+async def getUserPredictionsNewest(username):
+   response = await database.fetch_predictions_from_users_by_newest_date(username)
+   return response
+
+@app.get("/userPredictionsOldest")
+async def getUserPredictionsOldest(username):
+   response = await database.fetch_predictions_from_users_by_oldest_date(username)
    return response

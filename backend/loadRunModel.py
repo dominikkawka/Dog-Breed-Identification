@@ -4,9 +4,11 @@ from keras.models import load_model
 
 import random
 import base64
+import mimetypes
 from PIL import Image
 import io
 import bcrypt
+import datetime
 
 from backend import commonVariables as val
 
@@ -37,13 +39,22 @@ def modelPrediction(dogBreedImage):
 
     data = {"predictedBreed": val.breedLabel[np.argmax(score)],
             "confidence": confidencePercentage,
-            "actualBreed": dogBreedImage,
+            "actualBreed": val.breedLabel[np.argmax(score)],
             "image": dogBreedImage,
-            "username": 'guest'
+            "imageFile": imageToBase64(dogBreedImage),
+            "username": 'guest',
+            "date": datetime.datetime.now().isoformat() 
             }
     
     #return print(data)
     return data
+
+def imageToBase64(image):
+    with open(image, "rb") as imageFile:
+        file_type, _ = mimetypes.guess_type(image)
+        base64_str = base64.b64encode(imageFile.read()).decode('utf-8')
+        base64_data = f"data:{file_type};base64,{base64_str}"
+    return base64_data
 
 def webcamBase64toJPG(base64String):
     img = Image.open(io.BytesIO(base64.decodebytes(bytes(base64String, "utf-8"))))
