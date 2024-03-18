@@ -24,16 +24,19 @@ export default function WebcamUploadGuide() {
             pb: { xs: 4, sm: 4 },
         }}>
             <Typography sx={{width: { sm: '100%', md: '85%' }}}>
-                1. Lorem Ipsum - WebcamUploadGuide
+                1. Allow the page to get access to your webcam.
             </Typography>
             <Typography sx={{width: { sm: '100%', md: '85%' }}}>
-                2. Lorem Ipsum
+                2. Inside the box, you can see a live feed of your camera. Press capture photo to take a photo of your dog.
             </Typography>
             <Typography sx={{width: { sm: '100%', md: '85%' }}}>
-                3. Lorem Ipsum
+                3. If not satisfied with the photo, you can choose to retry. Otherwise, you can press the Submit Button.
             </Typography>
             <Typography sx={{width: { sm: '100%', md: '85%' }}}>
-                4. Lorem Ipsum
+                4. Wait for the progress bar to reach 100%, then press the View Prediction Button
+            </Typography>
+            <Typography sx={{width: { sm: '100%', md: '85%' }}}>
+                5. After you see the prediciton, you can choose to read more about them!
             </Typography>
         </Container>
       </Box>

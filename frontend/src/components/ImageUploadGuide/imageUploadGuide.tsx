@@ -24,16 +24,16 @@ export default function ImageUploadGuide() {
             pb: { xs: 4, sm: 4 },
         }}>
             <Typography sx={{width: { sm: '100%', md: '85%' }}}>
-                1. Lorem Ipsum
+                1. Drag your image into the dropbox OR press upload image button and select your .JPG or .PNG
             </Typography>
             <Typography sx={{width: { sm: '100%', md: '85%' }}}>
-                2. Lorem Ipsum
+                2. When your image is uploaded, it should be displayed inside the box. Press the Submit Image button below the dropbox.
             </Typography>
             <Typography sx={{width: { sm: '100%', md: '85%' }}}>
-                3. Lorem Ipsum
+                3. Wait for the progress bar to reach 100%, then press the View Prediction Button
             </Typography>
             <Typography sx={{width: { sm: '100%', md: '85%' }}}>
-                4. Lorem Ipsum
+                4. After you see the prediciton, you can choose to read more about them!
             </Typography>
         </Container>
       </Box>
