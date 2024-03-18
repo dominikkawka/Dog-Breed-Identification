@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DogBreedsList from '../DogBreedsList/dogBreedsList';
 
 export default function HomeFAQ() {
   const [expanded, setExpanded] = React.useState<string | false>(false);
@@ -64,7 +65,7 @@ export default function HomeFAQ() {
             id="panel1d-header"
           >
             <Typography component="h3" variant="subtitle2">
-              How do I contact customer support if I have a question or issue?
+              How does the Dog Breed Identifier Work?
             </Typography>
           </AccordionSummary>
           <AccordionDetails style={{ display: 'block' }}>
@@ -73,7 +74,7 @@ export default function HomeFAQ() {
               gutterBottom
               sx={{ maxWidth: { sm: '100%', md: '100%' } }}
             >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                The Dog Breed Identifier uses a custom machine learning algorithm to tell the differences between dog breeds. Over 21,000+ Images of 122 dog breeds have been used to train this model. The model takes the distinct characteristics of each dog into consideration, analysing different features such as coat texture, ear shape, size of their muzzle etc.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -87,7 +88,7 @@ export default function HomeFAQ() {
             id="panel2d-header"
           >
             <Typography component="h3" variant="subtitle2">
-              Can I return the product if it doesn&apos;t meet my expectations?
+              How accurate is the model?
             </Typography>
           </AccordionSummary>
           <AccordionDetails style={{ display: 'block' }}>
@@ -96,7 +97,7 @@ export default function HomeFAQ() {
               gutterBottom
               sx={{ maxWidth: { sm: '100%', md: '100%' } }}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              As the model only takes physical characteristics into consideration, this dog breed model won't be as accurate as a DNA test. For mixed breeds especially, the accuracy of the model lower.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -110,7 +111,7 @@ export default function HomeFAQ() {
             id="panel3d-header"
           >
             <Typography component="h3" variant="subtitle2">
-              What makes your product stand out from others in the market?
+              Which dog breeds are included in this Identifier?
             </Typography>
           </AccordionSummary>
           <AccordionDetails style={{ display: 'block' }}>
@@ -119,7 +120,8 @@ export default function HomeFAQ() {
               gutterBottom
               sx={{ maxWidth: { sm: '100%', md: '100%' } }}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              There are 122 identifiable dog breeds for this model. Here is a list of all breeds.
+              <DogBreedsList/>
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -133,7 +135,7 @@ export default function HomeFAQ() {
             id="panel4d-header"
           >
             <Typography component="h3" variant="subtitle2">
-              Is there a warranty on the product, and what does it cover?
+              There is something wrong with the product.
             </Typography>
           </AccordionSummary>
           <AccordionDetails style={{ display: 'block'}}>
@@ -142,7 +144,7 @@ export default function HomeFAQ() {
               gutterBottom
               sx={{ maxWidth: { sm: '100%', md: '100%' } }}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              If there is something wrong with this application, please message me on X (Twitter) or on LinkedIn. The links are in the footer.
             </Typography>
           </AccordionDetails>
         </Accordion>

@@ -4,16 +4,29 @@
 
 I've also used other images for extra dog breeds. I will create a link to a google drive featuring the latest built models. 
 
-## FARM Stack
+## Technologies
+
+### FARM Stack
 - FastAPI
 - React
 - MongoDB
 
-### + Other Technologies
+### + Other
 - Tensorflow 2.15
+- TypeScript
 - Vite.js
 
 ## Installation
+
+### Docker Compose
+
+`docker compose up`
+
+This is the only command needed to run the application locally, apart from the model itself.
+
+### Local
+
+If you don't have docker installed or want to use docker, you can run these commands instead. Before running the backend though, you will need to change each of the imports from `from backend import...` to `import ...`.
 
 `cd backend`
 
@@ -28,3 +41,7 @@ If you wish to use your GPU to build the model yourself, please follow [this gui
 `npm install`
 
 `npm run dev`
+
+#### Other
+
+I haven't uploaded the model itself since there seems to be a bug with git lfs, when downloaded the model is corrupted. In backend, create a folder named model and insert the model from this [google drive download link](https://drive.google.com/file/d/1mxr1Mmtp8ZQqLGGpO7450eUxIrJlQlKk/view?usp=sharing). 
