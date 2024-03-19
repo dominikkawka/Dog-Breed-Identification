@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BreedList from "../components/BreedList/breedList";
-import { Button } from "@mui/material";
+import { Container, Button, Typography } from "@mui/material";
 
 const HistoryPage = () => {
   const [predictions, setPredictions] = useState([]);
@@ -41,9 +41,17 @@ const HistoryPage = () => {
 
   return (
     <>
-      <div>
-        <Button onClick={sortNewest}>Newest Image</Button>
-        <Button onClick={sortOldest}>Oldest Image</Button>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      <Typography sx={{ pt: 4, pb: 2}}>You can filter your predictions by:</Typography>
+        <Container sx={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <Button onClick={sortNewest} variant="outlined" sx={{mr: 4}}>Newest Image</Button>
+          <Button onClick={sortOldest} variant="outlined">Oldest Image</Button>
+        </Container>
         <BreedList predictions={predictions} />
       </div>
     </>
