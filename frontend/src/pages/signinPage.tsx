@@ -31,17 +31,13 @@ export default function SignInSide() {
     let password = data.get('password') as string;
     
     try {
-      await loginUser(username, password)   
-      sessionStorage.setItem("username", username)   
+      await loginUser(username, password)  
     } catch (error) {
       if (error instanceof AxiosError) {
         let errorMessage = error.response?.data.detail; 
         console.log(errorMessage)
         setErrorMessage(JSON.stringify(errorMessage))
-      } else {
-        setErrorMessage("Unknown Error Occured")
-      }
-      
+      } 
     }
   }
 

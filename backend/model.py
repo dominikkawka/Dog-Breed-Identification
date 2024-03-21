@@ -30,6 +30,8 @@ class user(BaseModel):
     _id: int
 
 class userLogin(BaseModel):
-    username: str
-    password: str
+    #username: str
+    #password: str
+    access_token: str
+    token_type: str
     _id: int

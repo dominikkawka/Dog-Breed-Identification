@@ -7,7 +7,7 @@ from tensorflow.keras.metrics import Precision, Recall, BinaryAccuracy
 from tensorflow.keras.applications import InceptionV3, ResNet50V2
 from tensorflow.keras.optimizers import Adam
 
-import commonVariables as val
+from backend import commonVariables as val
 
 number_of_breeds = len(val.breedLabel)
 batch_size = 64
@@ -39,6 +39,11 @@ validationDataset = tf.keras.utils.image_dataset_from_directory(
     batch_size=batch_size,
     image_size=(val.image_size, val.image_size)
     )
+
+breedNames = trainDataset.class_names
+print("Breed Names")
+print("==========")
+print(breedNames)
 
 normalisedDataset = trainDataset.map(lambda x, y: (x/255,y))
 data_iterator = normalisedDataset.as_numpy_iterator()
@@ -77,7 +82,7 @@ for i in range(32):
 dataAugmentation = Sequential([
    RandomFlip("horizontal_and_vertical", input_shape=(val.image_size, val.image_size, 3)),
    RandomRotation(0.2),
-   #RandomZoom(0.2)
+   RandomZoom(0.1)
 ])
 
 model = Sequential([
