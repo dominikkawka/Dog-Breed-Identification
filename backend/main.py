@@ -1,12 +1,16 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+
 import shutil
 import re
 import os
+import datetime
 
 from backend import loadRunModel
 from backend import database
 from backend import model
+from backend import commonVariables as val
 
 app = FastAPI()
 
@@ -19,6 +23,8 @@ app.add_middleware(
    allow_methods=["*"],
    allow_headers=["*"]
 )
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @app.get("/")
 async def root():
@@ -102,18 +108,19 @@ async def createUser(user: model.user):
    database.create_user(result)
    return result
 
-@app.post("/loginUser", response_model=model.userLogin)
-async def loginUser(user: model.userLogin):
-   response = await database.fetch_user_by_username(user.username)
-   if (response is None):
-      raise HTTPException(status_code=409, detail='username does not exist')
-   else:
-      encryptedPassword =  str(response["password"]).replace("b'", "").replace("'", "")
-      result = loadRunModel.comparePasswords(user.password, encryptedPassword)
-      if (result):
-         return response
-      else:
-         raise HTTPException(status_code=409, detail='invalid password')
+@app.post("/loginUserAuth", response_model=model.userLogin)
+async def loginForAccessToken(form_data: OAuth2PasswordRequestForm = Depends()):
+   user = await database.fetch_user_by_username(form_data.username)
+   if not user:
+      raise HTTPException(status_code=401, detail="Incorrect username or password", headers={"WWW-Authenticate": "Bearer"})
+    
+   encrypted_password = user.get("password")
+   if not loadRunModel.comparePasswords(form_data.password, encrypted_password):
+      raise HTTPException(status_code=401, detail="Incorrect username or password", headers={"WWW-Authenticate": "Bearer"})
+    
+   access_token_expires = datetime.timedelta(minutes=int(val.access_token_expire_time))
+   access_token = loadRunModel.createAccessToken(data={"sub": form_data.username}, expires_delta=access_token_expires)
+   return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/allUsers")
 async def allUsers(): 
@@ -129,16 +136,19 @@ async def getUser(username):
       return response
    
 @app.get("/userPredictions")
-async def getUserPredictions(username):
+async def getUserPredictions(token: str):
+   username = loadRunModel.verifyToken(token)
    response = await database.fetch_predictions_from_users(username)
    return response
 
 @app.get("/userPredictionsNewest")
-async def getUserPredictionsNewest(username):
+async def getUserPredictionsNewest(token: str):
+   username = loadRunModel.verifyToken(token)
    response = await database.fetch_predictions_from_users_by_newest_date(username)
    return response
 
 @app.get("/userPredictionsOldest")
-async def getUserPredictionsOldest(username):
+async def getUserPredictionsOldest(token: str):
+   username = loadRunModel.verifyToken(token)
    response = await database.fetch_predictions_from_users_by_oldest_date(username)
    return response

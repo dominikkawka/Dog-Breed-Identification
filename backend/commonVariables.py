@@ -7,3 +7,6 @@ breedLabel = ['Chihuahua', 'Japanese Spaniel', 'Maltese Dog', 'Pekingese', 'Shih
 image_size = 256
 datasetDir = '../../dogBreedDataset/images/Images' 
 uri = os.getenv("URI")
+secret_key = os.getenv("SECRET_KEY")
+algorithm = os.getenv("ALGORITHM")
+access_token_expire_time = os.getenv("ACCESS_TOKEN_EXPIRE_TIME")

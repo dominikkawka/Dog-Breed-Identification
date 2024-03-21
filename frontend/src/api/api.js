@@ -62,11 +62,15 @@ const patchUsernameToPrediction = async (predictedBreed, imageName, username) =>
 }
 
 const loginUser = async (username, password) => {
+  const formData = new FormData();
+  formData.append('username', username);
+  formData.append('password', password);
+
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/loginUser`, { 
-      'username': username,
-      'password': password
-    });
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/loginUserAuth`, formData);
+    localStorage.setItem('token', response.data.access_token)
+    sessionStorage.setItem('username', username)
+    //console.log(response.data)
     return response.data
   } catch (error) {
     //console.log(error.response.data.detail)

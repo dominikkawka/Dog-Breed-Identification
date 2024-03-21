@@ -6,12 +6,13 @@ import { Container, Button, Typography } from "@mui/material";
 const HistoryPage = () => {
   const [predictions, setPredictions] = useState([]);
   let username = sessionStorage.getItem("username");
+  let token = localStorage.getItem("token");
 
   const fetchUserPredictions = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/userPredictions`, {
         params: {
-          username: username,
+          token: token
         },
       });
       console.log(response.data);
