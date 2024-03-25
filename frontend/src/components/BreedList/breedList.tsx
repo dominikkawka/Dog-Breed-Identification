@@ -17,12 +17,13 @@ interface Prediction {
 
 interface BreedListProps {
   predictions?: Prediction[] | null;
+  deletePrediction: (username: string, image: string) => void;
 }
 
-const BreedList: React.FC<BreedListProps> = ({ predictions }) => {
+const BreedList: React.FC<BreedListProps> = ({ predictions, deletePrediction }) => {
   let breedCards = predictions ? (
     predictions.map((m) => (
-        <BreedCard key={m._id} prediction={m} />
+        <BreedCard key={m._id} prediction={m} deletePrediction={deletePrediction} />
     ))
   ) : (
     <Grid item xs={12}>

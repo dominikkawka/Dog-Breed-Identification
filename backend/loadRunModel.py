@@ -14,10 +14,9 @@ import jwt
 from backend import commonVariables as val
 
 def modelPrediction(dogBreedImage):
-    gpu_devices = tf.config.experimental.list_physical_devices('GPU')
-    for device in gpu_devices:
-        tf.config.experimental.set_memory_growth(device, True)
-
+    print("loading model")
+    loadModel = load_model('model/InceptionV3-2.15-22Mar-122-Augmented.h5')
+    print("loading model complete")
     #convert image
     
     valueBreed = tf.keras.utils.load_img(dogBreedImage, target_size=(val.image_size,val.image_size))
@@ -25,7 +24,6 @@ def modelPrediction(dogBreedImage):
     img_array = tf.keras.utils.img_to_array(valueBreed)
     img_array = tf.expand_dims(img_array, 0) # Create a batch
 
-    loadModel = load_model('model/InceptionV3-2.15-28Dec-Augmented.h5')
     predictions = loadModel.predict(img_array)
 
     # each result here has 0.00 ... instead of a full number in front, which is why the confidence is low no matter what.
@@ -35,7 +33,7 @@ def modelPrediction(dogBreedImage):
     #print(score) 
     #print("--------")
 
-    confidence = len(val.breedLabel) * np.max(score)
+    confidence = np.max(predictions[0])
     confidencePercentage = ("{:.2f}").format(confidence) #+ "%"
 
     data = {"predictedBreed": val.breedLabel[np.argmax(score)],

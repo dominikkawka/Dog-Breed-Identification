@@ -87,8 +87,8 @@ dataAugmentation = Sequential([
 
 model = Sequential([
    dataAugmentation,
-   #InceptionV3,
-   ResNet50V2,
+   InceptionV3,
+   #ResNet50V2,
    GlobalAveragePooling2D(),
    Dense(number_of_breeds, activation='softmax'),
 ])
@@ -114,8 +114,8 @@ loss = hist.history['loss']
 val_loss = hist.history['val_loss']
 
 # In TF2.15, the .keras file will infinately stall when trying to analyse a photo.
-#model.save('model/InceptionV3-2.15-28Dec-Augmented.keras')
-model.save('model/ResNet50V2[-32]-2.15-9Mar-122-Augmented.h5')
+model.save('model/InceptionV3-2.15-22Mar-122-Augmented.keras')
+model.save('model/InceptionV3-2.15-22Mar-122-Augmented.h5')
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.tf')
 
 fig = plt.figure()

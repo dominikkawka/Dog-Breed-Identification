@@ -19,9 +19,18 @@ interface Prediction {
   date: string;
 }
 
-export default function BreedCard({ prediction }: { prediction: Prediction }) {
+interface BreedCardProps {
+  prediction: Prediction;
+  deletePrediction: (username: string, image: string) => void; // Function to delete prediction
+}
+
+const BreedCard: React.FC<BreedCardProps> = ({ prediction, deletePrediction }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleDeletePrediction = () => {
+    deletePrediction(prediction.username, prediction.image);
+  };
 
   return (
     <Card
@@ -61,10 +70,12 @@ export default function BreedCard({ prediction }: { prediction: Prediction }) {
         <Button size="small" color="primary" href={`/description/${prediction.predictedBreed}`}>
           Read More...
         </Button>
-        <Button size="small" color="secondary" href="/">
+        <Button size="small" color="secondary" onClick={handleDeletePrediction}>
           Delete
         </Button>
       </CardActions>
     </Card>
   );
-}
+};
+
+export default BreedCard;
