@@ -65,7 +65,7 @@ async def fetch_all_users():
 
 async def fetch_user_by_username(username):
     document = await userCollection.find_one({"username":username}, {'_id': 0})
-    return document
+    return document  
 
 def create_user(user):
     #if user already exists in collection, return 409 conflict error
@@ -93,3 +93,7 @@ async def fetch_predictions_from_users_by_oldest_date(username):
     async for document in cursor:
         predictions.append(prediction(**document))
     return predictions
+
+async def delete_prediction(username, image):
+    prediction = predictionCollection.find_one_and_delete({"username": username, "image": image}, {'_id': 0})
+    return prediction

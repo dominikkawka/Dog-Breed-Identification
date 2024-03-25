@@ -152,3 +152,9 @@ async def getUserPredictionsOldest(token: str):
    username = loadRunModel.verifyToken(token)
    response = await database.fetch_predictions_from_users_by_oldest_date(username)
    return response
+
+@app.delete("/deleteUserPrediction")
+async def deleteUserPrediction(username: str, image: str):
+   #username = loadRunModel.verifyToken(token)
+   response = await database.delete_prediction(username, image)
+   return response

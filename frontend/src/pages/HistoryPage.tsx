@@ -22,6 +22,21 @@ const HistoryPage = () => {
     }
   };
 
+  const deletePrediction = async (username: string, image: string) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/deleteUserPrediction`, {
+        params: {
+          username: username,
+          image: image
+        }
+      })
+      console.log(response.data);
+      await fetchUserPredictions()
+    } catch (error) {
+      await fetchUserPredictions()
+    }
+  }
+
   useEffect(() => {
     fetchUserPredictions();
   }, []);
@@ -53,7 +68,7 @@ const HistoryPage = () => {
           <Button onClick={sortNewest} variant="outlined" sx={{mr: 4}}>Newest Image</Button>
           <Button onClick={sortOldest} variant="outlined">Oldest Image</Button>
         </Container>
-        <BreedList predictions={predictions} />
+        <BreedList predictions={predictions} deletePrediction={deletePrediction}/>
       </div>
     </>
   );
