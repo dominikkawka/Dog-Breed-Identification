@@ -70,10 +70,10 @@ const loginUser = async (username, password) => {
     const response = await axios.post(`${import.meta.env.VITE_API_URL}/loginUserAuth`, formData);
     localStorage.setItem('token', response.data.access_token)
     sessionStorage.setItem('username', username)
+    window.location.replace(`/`)
     //console.log(response.data)
     return response.data
   } catch (error) {
-    //console.log(error.response.data.detail)
     throw error
   }
 };
@@ -85,6 +85,7 @@ const createUser = async (username, email, password) => {
       'email': email,
       'password': password
     });
+    window.location.replace(`/`)
     return response.data
   } catch (error) {
     throw error
