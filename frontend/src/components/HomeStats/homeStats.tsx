@@ -80,6 +80,10 @@ export default function HomeStats() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: { xs: 3, sm: 6 },
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.45)), url("https://www.barkingmad.uk.com/wp-content/uploads/2023/09/iStock-1252455620-768x513.jpg")`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        width: '100% auto',
       }}
     >
       <Grid container spacing={3} alignItems="center" justifyContent="center">
