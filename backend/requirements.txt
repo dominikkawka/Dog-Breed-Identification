@@ -1,4 +1,4 @@
-tensorflow==2.15
+tensorflow-cpu==2.15
 matplotlib
 fastapi
 uvicorn
@@ -9,3 +9,4 @@ protobuf
 bcrypt
 python-dotenv
 pyjwt
+h5py

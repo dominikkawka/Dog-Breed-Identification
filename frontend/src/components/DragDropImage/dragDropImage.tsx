@@ -18,16 +18,20 @@ export default function DragDropImage() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setProgressVisible(true)
-        
-        try {
-          const response = await uploadImage(image!);
-          if (response) {
+        if (image == null) {
+          setUploadError('Please upload an image')
+        } else {
+          setUploadError('')
+          try {
+            const response = await uploadImage(image!);
+            if (response) {
+              setViewPrediction(true)
+            }
+          } catch (error) {
             setViewPrediction(true)
           }
-        } catch (error) {
-          setViewPrediction(true)
         }
+        
       };
 
     const onDrop = (acceptedFiles: File[]) => {
