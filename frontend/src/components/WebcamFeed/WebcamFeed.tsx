@@ -2,35 +2,85 @@ import axios from "axios";
 import React, {useState, useRef, useCallback} from "react";
 import Webcam from "react-webcam";
 import { Container } from "@mui/system";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import LinearProgressBar from '../LinearProgressBar/linearProgressBar';
+import { getPrediction, patchUsernameToPrediction } from "../../api/api";
+
 
 function WebcamFeed() {
   const webcamRef = useRef(null);
   const [image, setImage] = useState(null);
-  let imageSrc = ''
-  let imgMetaData = []
-  let splitImgMetaData = ''
- 
+  const [progressVisible, setProgressVisible] = useState<boolean>(false);
+  const [viewPrediction, setViewPrediction] = useState<boolean>(false);
+  const [prediction, setPrediction] = useState<string>('');
+  const [confidence, setConfidence] = useState<string>('');
+  const [imageName, setImageName] = useState<string>('')
+
+  let imageSrc = '';
+  let imgMetaData = [];
+  let splitImgMetaData = '';
+  
+
   const capture = useCallback(() => {
     imageSrc = webcamRef.current.getScreenshot();
     setImage(imageSrc);
-   }, [webcamRef]);
- 
-   const videoConstraints = {
+
+    const randInt = Math.floor(Math.random() * 10000);
+    let imgName = 'webcam-' + randInt + '.jpeg'
+    setImageName(imgName)
+  }, [webcamRef]);
+
+  const videoConstraints = {
     width: 256,
     height: 256,
     facingMode: "user",
-   };
+  };
 
-  const handleSubmit = () => {
-    imgMetaData = image.split(",")
-    splitImgMetaData = imgMetaData[1]
-    
-    axios.post( `${import.meta.env.VITE_API_URL}/webcamImage`, {"image": splitImgMetaData}) 
-    .then(r => console.log(r.status))
-    .catch(e => console.log(e)); 
-    console.log(splitImgMetaData) 
-  }
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    imgMetaData = image.split(",");
+    splitImgMetaData = imgMetaData[1];
+
+    setProgressVisible(true);
+
+    try {
+      await axios
+      .post(`${import.meta.env.VITE_API_URL}/webcamImage`, {
+        image: splitImgMetaData,
+        imageName: imageName,
+      })
+      .then((r) => {
+        console.log(r.status);
+        setProgressVisible(false); 
+      })
+      .catch((e) => console.log(e));
+      //console.log(splitImgMetaData);
+      setViewPrediction(true)
+    } catch (error) {
+    setViewPrediction(true)
+    }
+  };
+
+  const handlePredictionResults = async () => {
+    setProgressVisible(false)
+      try {
+        const response = await getPrediction(imageName);
+        setPrediction(response.predictedBreed || '');
+        setConfidence(response.confidence || '');
+      } catch (error) {
+        // Handle error
+      }
+  };
+
+  const saveSubmission = async () => {
+    let username = sessionStorage.getItem("username")
+    try {
+      const response = await patchUsernameToPrediction(prediction, imageName, username)
+        if (response) {
+      }
+    } catch (error) {
+    }
+  }  
 
     return (
       <div className="Container">
@@ -80,7 +130,32 @@ function WebcamFeed() {
             alignItems: 'center',
             gap: { xs: 3, sm: 6 },
           }}>
-          <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+          <Button type="submit" variant="contained" onClick={handleSubmit}>
+            Submit Image
+        </Button>
+        {progressVisible && (
+          <LinearProgressBar />
+        )}
+
+        {viewPrediction && (
+          <>
+            <Button variant="contained" onClick={handlePredictionResults}>
+              View Prediction Results
+            </Button>
+            <Typography>
+              Predicted Breed: {prediction} + Confidence: {confidence}
+            </Typography>
+            <Typography>
+              If you would like to find out about your dog, you can read more here!
+            </Typography>
+            <Button variant="outlined" color="primary" href={`/description/${prediction}`}>
+                  Start now
+              </Button>
+            <Button variant="contained" onClick={saveSubmission}>
+              Save Submission to History
+            </Button>
+          </>
+        )}
         </Container>
         
       </div>

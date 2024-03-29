@@ -1,6 +1,8 @@
 import numpy as np
 import tensorflow as tf
-from keras.models import load_model
+#keras.models works for .h5, keras.saving is for .keras files
+#from keras.models import load_model
+from keras.saving import load_model
 
 import random
 import base64
@@ -14,9 +16,9 @@ import jwt
 from backend import commonVariables as val
 
 def modelPrediction(dogBreedImage):
-    print("loading model")
-    loadModel = load_model('model/InceptionV3-2.15-22Mar-122-Augmented.h5')
-    print("loading model complete")
+    print("loading .keras model")
+    loadModel = load_model('model/InceptionV3-2.15-22Mar-122-Augmented.h5') #backend/model/InceptionV3-2.15-22Mar-122-Augmented.h5
+    print("loading .keras model complete")
     #convert image
     
     valueBreed = tf.keras.utils.load_img(dogBreedImage, target_size=(val.image_size,val.image_size))
@@ -55,10 +57,9 @@ def imageToBase64(image):
         base64_data = f"data:{file_type};base64,{base64_str}"
     return base64_data
 
-def webcamBase64toJPG(base64String):
+def webcamBase64toJPG(base64String, imageName):
     img = Image.open(io.BytesIO(base64.decodebytes(bytes(base64String, "utf-8"))))
-    randomInt = str(random.randint(0, 10000))
-    result = 'webcamImage-'+randomInt+'.jpeg'
+    result = imageName
     img.save(result)
     result = modelPrediction(result)
     return result

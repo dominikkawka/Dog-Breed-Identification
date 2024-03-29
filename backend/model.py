@@ -22,6 +22,7 @@ class addUserToPrediction(BaseModel):
 
 class webcamImage(BaseModel):
     image: str
+    imageName: str
 
 class user(BaseModel):
     username: str

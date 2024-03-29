@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BreedList from "../components/BreedList/breedList";
 import { Container, Button, Typography } from "@mui/material";
+import CircularProgressBar from "../components/CircularProgressBar/circularProgressBar";
 
 const HistoryPage = () => {
   const [predictions, setPredictions] = useState([]);
+  const [progressCircle, setProgressCircle] = useState<boolean>(true)
   let username = sessionStorage.getItem("username");
   let token = localStorage.getItem("token");
 
   const fetchUserPredictions = async () => {
+    
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/userPredictions`, {
         params: {
@@ -17,6 +20,7 @@ const HistoryPage = () => {
       });
       console.log(response.data);
       setPredictions(response.data);
+      setProgressCircle(false)
     } catch (error) {
       
     }
@@ -68,6 +72,7 @@ const HistoryPage = () => {
           <Button onClick={sortNewest} variant="outlined" sx={{mr: 4}}>Newest Image</Button>
           <Button onClick={sortOldest} variant="outlined">Oldest Image</Button>
         </Container>
+        {progressCircle && <CircularProgressBar/>}
         <BreedList predictions={predictions} deletePrediction={deletePrediction}/>
       </div>
     </>
