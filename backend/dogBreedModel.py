@@ -73,8 +73,11 @@ ResNet50V2 = ResNet50V2(
    input_shape=(val.image_size, val.image_size, 3)
 )
 
-for i in range(36):
-  InceptionV3.layers.pop()
+#for i in range(36):
+#  InceptionV3.layers.pop()
+
+for layer in InceptionV3.layers:
+    layer.trainable = False
 
 for i in range(32):
   ResNet50V2.layers.pop()
@@ -114,8 +117,9 @@ loss = hist.history['loss']
 val_loss = hist.history['val_loss']
 
 # In TF2.15, the .keras file will infinately stall when trying to analyse a photo.
-model.save('model/InceptionV3-2.15-27Mar-122-Augmented.keras')
-model.save('model/InceptionV3-2.15-27Mar-122-Augmented.h5')
+#model.save('model/InceptionV3-2.15-8Apr-122-Augmented.keras')
+model.save('model/InceptionV3-2.15-9Apr2-122-Augmented.h5')
+model.save('model/InceptionV3-2.15-9Apr2-122-Augmented')
 #model.save('model/InceptionV3-2.15-28Dec-Augmented.tf')
 
 fig = plt.figure()
