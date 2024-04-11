@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Button, Card, CardMedia, CardContent, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, TextField } from '@mui/material';
+import { PieChart } from '@mui/x-charts/PieChart'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { uploadImage, getPrediction, patchCorrectBreed, patchUsernameToPrediction } from '../../api/api';
 import { useDropzone } from 'react-dropzone';
@@ -14,7 +15,11 @@ export default function DragDropImage() {
     const [image, setImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [prediction, setPrediction] = useState<string>('');
-    const [confidence, setConfidence] = useState<string>('');
+    const [confidence, setConfidence] = useState<number>(0);
+    const [prediction2, setPrediction2] = useState<string>('');
+    const [confidence2, setConfidence2] = useState<number>(0);
+    const [prediction3, setPrediction3] = useState<string>('');
+    const [confidence3, setConfidence3] = useState<number>(0);
     const [uploadError, setUploadError] = useState<string>('')
     const [progressVisible, setProgressVisible] = useState<boolean>(false);
     const [viewPrediction, setViewPrediction] = useState<boolean>(false);
@@ -57,7 +62,12 @@ export default function DragDropImage() {
         try {
           const response = await getPrediction(image.name);
           setPrediction(response.predictedBreed || '');
-          setConfidence(response.confidence || '');
+          setConfidence(parseFloat(response.confidence) || 0);
+          setPrediction2(response.secondPredictedBreed || '');
+          setConfidence2(parseFloat(response.secondConfidence) || 0);
+          setPrediction3(response.thirdPredictedBreed || '');
+          setConfidence3(parseFloat(response.thirdConfidence) || 0);
+          console.log((confidence + confidence2 + confidence3))
         } catch (error) {
           // Handle error
         }
@@ -184,8 +194,24 @@ export default function DragDropImage() {
               View Prediction Results
             </Button>
             <Typography>
-              Predicted Breed: {prediction} + Confidence: {confidence}
+              We are {confidence}% sure that the most likely dog breed in this image is a {prediction}!
             </Typography>
+            <PieChart
+              series={[
+                {
+                  data: [
+                    {value: confidence, label: prediction },
+                    {value: confidence2, label: prediction2},
+                    {value: confidence3, label: prediction3},
+                    {value: (100- (confidence + confidence2 + confidence3)), label: 'other'}
+                  ],
+                },
+              ]}
+              width={600}
+              height={200}
+            >
+
+            </PieChart>
             <Typography>
               If you would like to find out about your dog, you can read more here!
             </Typography>

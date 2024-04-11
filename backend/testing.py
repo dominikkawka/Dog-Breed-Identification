@@ -10,5 +10,11 @@ def modelPredictionKeras():
     loadModel = load_model('model/InceptionV3-2.15-27Mar-122-Augmented.keras')
     print("loading .keras model complete")
 
+def modelPredictionFile():
+    print("loading file model")
+    loadModel = load_model('model/InceptionV3-2.15-8Apr-122-Augmented')
+    print("loading file model complete")
+
 #modelPredictionH5()
 #modelPredictionKeras()
+modelPredictionFile()

@@ -16,9 +16,7 @@ import jwt
 from backend import commonVariables as val
 
 def modelPrediction(dogBreedImage):
-    print("loading .keras model")
     loadModel = load_model('model/InceptionV3-2.15-22Mar-122-Augmented.h5') #backend/model/InceptionV3-2.15-22Mar-122-Augmented.h5
-    print("loading .keras model complete")
     #convert image
     
     valueBreed = tf.keras.utils.load_img(dogBreedImage, target_size=(val.image_size,val.image_size))
@@ -28,23 +26,36 @@ def modelPrediction(dogBreedImage):
 
     predictions = loadModel.predict(img_array)
 
-    # each result here has 0.00 ... instead of a full number in front, which is why the confidence is low no matter what.
-    # even when using the pretrained images, it'll get the breed right, but the confidence will always stay around 1-2%
-    score = tf.nn.softmax(predictions[0])
+    top_k = tf.keras.backend.eval(tf.nn.top_k(predictions[0], k=3))
 
-    #print(score) 
-    #print("--------")
+    top_indices = top_k.indices
+    top_scores = top_k.values
 
-    confidence = np.max(predictions[0])
-    confidencePercentage = ("{:.2f}").format(confidence) #+ "%"
+    top_predictions = [(val.breedLabel[i], score) for i, score in zip(top_indices, top_scores)]
 
-    data = {"predictedBreed": val.breedLabel[np.argmax(score)],
-            "confidence": confidencePercentage,
-            "actualBreed": val.breedLabel[np.argmax(score)],
+    first_prediction_label, first_prediction_confidence = top_predictions[0]
+    second_prediction_label, second_prediction_confidence = top_predictions[1]
+    third_prediction_label, third_prediction_confidence = top_predictions[2]
+
+    first_confidence_percentage = "{:.2f}".format(first_prediction_confidence * 100)
+    second_confidence_percentage = "{:.2f}".format(second_prediction_confidence * 100)
+    third_confidence_percentage = "{:.2f}".format(third_prediction_confidence * 100)
+
+    print("First Prediction:", first_prediction_label, "Confidence:", first_confidence_percentage)
+    print("Second Prediction:", second_prediction_label, "Confidence:", second_confidence_percentage)
+    print("Third Prediction:", third_prediction_label, "Confidence:", third_confidence_percentage)
+
+    data = {"predictedBreed": first_prediction_label,
+            "confidence": first_confidence_percentage,
+            "actualBreed": first_prediction_label,
             "image": dogBreedImage,
             "imageFile": imageToBase64(dogBreedImage),
             "username": 'guest',
-            "date": datetime.datetime.now().isoformat() 
+            "date": datetime.datetime.now().isoformat() ,
+            "secondPredictedBreed": second_prediction_label,
+            "secondConfidence": second_confidence_percentage,
+            "thirdPredictedBreed": third_prediction_label,
+            "thirdConfidence": third_confidence_percentage
             }
     
     #return print(data)

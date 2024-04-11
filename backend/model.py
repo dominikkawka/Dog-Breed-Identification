@@ -8,6 +8,10 @@ class prediction(BaseModel):
     imageFile: str
     username: str
     date: str
+    secondPredictedBreed: str
+    secondConfidence: float
+    thirdPredictedBreed: str
+    thirdConfidence: float
     _id: int
 
 class submitFeedbackPrediction(BaseModel):
