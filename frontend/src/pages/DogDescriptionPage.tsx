@@ -115,7 +115,7 @@ const DogDescriptionPage: React.FC = () => {
             </Grid>
             <Grid item xs={6} sx={{ mt: 2 }}>
               <Typography>Social with Dogs: </Typography>
-              <Rating name="read-only" icon={<PetsIcon fontSize="large" />} emptyIcon={<PetsOutlinedIcon fontSize="large" />} value={description.SocialWithDogs}/>
+              <Rating name="read-only" icon={<PetsIcon fontSize="large" />} emptyIcon={<PetsOutlinedIcon fontSize="large" />} value={description.SocialWithDogs} readOnly/>
             </Grid>
             <Grid item xs={6} sx={{ mt: 2 }}>
               <Typography>Social with People: </Typography>

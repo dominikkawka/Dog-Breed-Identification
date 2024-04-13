@@ -3,6 +3,7 @@ import React, {useState, useRef, useCallback} from "react";
 import Webcam from "react-webcam";
 import { Container } from "@mui/system";
 import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText, TextField, Box } from "@mui/material";
+import { PieChart } from '@mui/x-charts/PieChart'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import LinearProgressBar from '../LinearProgressBar/linearProgressBar';
 import { getPrediction, patchUsernameToPrediction, patchCorrectBreed } from "../../api/api";
@@ -14,8 +15,13 @@ function WebcamFeed() {
   const [image, setImage] = useState(null);
   const [progressVisible, setProgressVisible] = useState<boolean>(false);
   const [viewPrediction, setViewPrediction] = useState<boolean>(false);
+  const [viewResult, setViewResult] = useState<boolean>(false);
   const [prediction, setPrediction] = useState<string>('');
-  const [confidence, setConfidence] = useState<string>('');
+  const [confidence, setConfidence] = useState<number>(0);
+  const [prediction2, setPrediction2] = useState<string>('');
+  const [confidence2, setConfidence2] = useState<number>(0);
+  const [prediction3, setPrediction3] = useState<string>('');
+  const [confidence3, setConfidence3] = useState<number>(0);
   const [imageName, setImageName] = useState<string>('')
 
   let username = sessionStorage.getItem("username")
@@ -67,13 +73,19 @@ function WebcamFeed() {
 
   const handlePredictionResults = async () => {
     setProgressVisible(false)
-      try {
-        const response = await getPrediction(imageName);
-        setPrediction(response.predictedBreed || '');
-        setConfidence(response.confidence || '');
-      } catch (error) {
-        // Handle error
-      }
+    try {
+      const response = await getPrediction(imageName);
+      setPrediction(response.predictedBreed || '');
+      setConfidence(parseFloat(response.confidence) || 0);
+      setPrediction2(response.secondPredictedBreed || '');
+      setConfidence2(parseFloat(response.secondConfidence) || 0);
+      setPrediction3(response.thirdPredictedBreed || '');
+      setConfidence3(parseFloat(response.thirdConfidence) || 0);
+      console.log((confidence + confidence2 + confidence3))
+    } catch (error) {
+      // Handle error
+    }
+  setViewResult(true)
   };
 
   const saveSubmission = async () => {
@@ -97,7 +109,7 @@ function WebcamFeed() {
   
     const handleActualDogBreedSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setValue(dialogValue.breed);
+      setValue(dialogValue);
       handleClose();
     };
 
@@ -167,113 +179,140 @@ function WebcamFeed() {
           <LinearProgressBar />
         )}
 
-        {viewPrediction && (
+{viewPrediction && (
           <>
             <Button variant="contained" onClick={handlePredictionResults}>
               View Prediction Results
             </Button>
-            <Typography>
-              Predicted Breed: {prediction} + Confidence: {confidence}
-            </Typography>
-            <Typography>
-              If you would like to find out about your dog, you can read more here!
-            </Typography>
-            <Button variant="outlined" color="primary" href={`/description/${prediction}`}>
-                  Start now
+            {viewResult && (
+            <> 
+              <Typography>
+                We are {confidence}% sure that the most likely dog breed in this image is a {prediction}!
+              </Typography>
+              <PieChart
+                series={[
+                  {
+                    data: [
+                      {value: confidence, label: prediction },
+                      {value: confidence2, label: prediction2},
+                      {value: confidence3, label: prediction3},
+                      {value: (100- (confidence + confidence2 + confidence3)), label: 'other'}
+                    ],
+                  },
+                ]}
+                width={600}
+                height={200}
+              >
+              </PieChart>
+              <Typography>
+               If you would like to find out about your dog, you can read more here!
+              </Typography>
+              <Button variant="outlined" color="primary" href={`/description/${prediction}`}>
+                Start now
               </Button>
-            <Button variant="contained" onClick={saveSubmission}>
-              Save Submission to History
-            </Button>
-            {username && (
-              
-              <Box sx={{ width: '33%'}}>
-                <Autocomplete 
-                  value={value}
-                  onChange={(event, newValue) => {
-                    if (typeof newValue === 'string') {
-                      // timeout to avoid instant validation of the dialog's form.
-                      setTimeout(() => {
-                        toggleOpen(true);
-                        setDialogValue({
-                          breed: newValue,
-                        });
-                      });
-                    } else if (newValue && newValue.inputValue) {
-                      toggleOpen(true);
-                      setDialogValue({
-                        breed: newValue.inputValue,
-                      });
-                    } else {
-                      setValue(newValue);
-                      console.log('newValue: '+ JSON.stringify(newValue))
-                    }
-                  }}
-                  filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
-    
-                    if (params.inputValue !== '') {
-                      filtered.push({
-                        inputValue: params.inputValue,
-                        breed: `Add "${params.inputValue}"`,
-                      });
-                    }
-    
-                    return filtered;
-                  }}
-                  id="free-solo-dialog-demo"
-                  options={dogBreeds}
-                  getOptionLabel={(option) => {
-                    // e.g. value selected with enter, right from the input
-                    if (typeof option === 'string') {
-                      return option;
-                    }
-                    if (option.inputValue) {
-                      return option.inputValue;
-                    }
-                    return option.breed;
-                  }}
-                  selectOnFocus
-                  clearOnBlur
-                  handleHomeEndKeys
-                  renderOption={(props, option) => <li {...props}>{option.breed}</li>}
-                  sx={{ background: "#DBE4EE", justifyContent: 'center !important'}}
-                  freeSolo
-                  renderInput={(params) => <TextField {...params} label="Select dog breed" />}
-                />
-                <Dialog open={open} onClose={handleClose}>
-                  <form onSubmit={handleActualDogBreedSubmit}>
-                    <DialogTitle>Add a new breed</DialogTitle>
-                    <DialogContent>
-                      <DialogContentText>
-                        Did your dogs breed not appear on this list? add it here!
-                      </DialogContentText>
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        value={dialogValue.breed}
-                        onChange={(event) =>
-                          setDialogValue({
-                            ...dialogValue,
-                            breed: event.target.value,
-                          })
-                        }
-                        label="breed"
-                        type="text"
-                        variant="standard"
-                      />
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Cancel</Button>
-                      <Button type="submit">Add</Button>
-                    </DialogActions>
-                  </form>
-                </Dialog>
-                <Button variant="contained" onClick={handleSubmitActualBreed}>
-                  Submit Actual Breed
+              {username && (
+              <>
+                <Typography>
+                  If you wish to save this submission to your account, click the button below
+                </Typography>
+                <Button variant="contained" onClick={saveSubmission}>
+                  Save Submission to History
                 </Button>
-                </Box>
-                )}
+                <Typography>
+                  Are you satisfied with this result? If not, please provide feedback on what you believe to be the correct breed.
+                </Typography>
+
+                <Box sx={{ width: '33%'}}>
+            <Autocomplete 
+              value={value}
+              onChange={(event, newValue) => {
+                if (typeof newValue === 'string') {
+                  // timeout to avoid instant validation of the dialog's form.
+                  setTimeout(() => {
+                    toggleOpen(true);
+                    setDialogValue({
+                      breed: newValue,
+                    });
+                  });
+                } else if (newValue && newValue.inputValue) {
+                  toggleOpen(true);
+                  setDialogValue({
+                    breed: newValue.inputValue,
+                  });
+                } else {
+                  setValue(newValue);
+                  console.log('newValue: '+ JSON.stringify(newValue))
+                }
+              }}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+
+                if (params.inputValue !== '') {
+                  filtered.push({
+                    inputValue: params.inputValue,
+                    breed: `Add "${params.inputValue}"`,
+                  });
+                }
+
+                return filtered;
+              }}
+              id="free-solo-dialog-demo"
+              options={dogBreeds}
+              getOptionLabel={(option) => {
+                // e.g. value selected with enter, right from the input
+                if (typeof option === 'string') {
+                  return option;
+                }
+                if (option.inputValue) {
+                  return option.inputValue;
+                }
+                return option.breed;
+              }}
+              selectOnFocus
+              clearOnBlur
+              handleHomeEndKeys
+              renderOption={(props, option) => <li {...props}>{option.breed}</li>}
+              sx={{ background: "#DBE4EE", justifyContent: 'center !important'}}
+              freeSolo
+              renderInput={(params) => <TextField {...params} label="Select dog breed" />}
+            />
+            <Dialog open={open} onClose={handleClose}>
+              <form onSubmit={handleActualDogBreedSubmit}>
+                <DialogTitle>Add a new breed</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Did your dogs breed not appear on this list? add it here!
+                  </DialogContentText>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    value={dialogValue.breed}
+                    onChange={(event) =>
+                      setDialogValue({
+                        ...dialogValue,
+                        breed: event.target.value,
+                      })
+                    }
+                    label="breed"
+                    type="text"
+                    variant="standard"
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button type="submit">Add</Button>
+                </DialogActions>
+              </form>
+            </Dialog>
+            <Button variant="contained" onClick={handleSubmitActualBreed}>
+              Submit Actual Breed
+            </Button>
+            </Box>
+              </>
+              )}
+            </>
+            )}
           </>
         )}
         </Container>

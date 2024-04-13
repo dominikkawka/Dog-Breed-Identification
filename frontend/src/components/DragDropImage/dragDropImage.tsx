@@ -23,6 +23,7 @@ export default function DragDropImage() {
     const [uploadError, setUploadError] = useState<string>('')
     const [progressVisible, setProgressVisible] = useState<boolean>(false);
     const [viewPrediction, setViewPrediction] = useState<boolean>(false);
+    const [viewResult, setViewResult] = useState<boolean>(false);
     let username = sessionStorage.getItem("username")
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -71,6 +72,7 @@ export default function DragDropImage() {
         } catch (error) {
           // Handle error
         }
+      setViewResult(true)
       };
   
       const saveSubmission = async () => {
@@ -193,37 +195,45 @@ export default function DragDropImage() {
             <Button variant="contained" onClick={handlePredictionResults}>
               View Prediction Results
             </Button>
-            <Typography>
-              We are {confidence}% sure that the most likely dog breed in this image is a {prediction}!
-            </Typography>
-            <PieChart
-              series={[
-                {
-                  data: [
-                    {value: confidence, label: prediction },
-                    {value: confidence2, label: prediction2},
-                    {value: confidence3, label: prediction3},
-                    {value: (100- (confidence + confidence2 + confidence3)), label: 'other'}
-                  ],
-                },
-              ]}
-              width={600}
-              height={200}
-            >
-
-            </PieChart>
-            <Typography>
-              If you would like to find out about your dog, you can read more here!
-            </Typography>
-            <Button variant="outlined" color="primary" href={`/description/${prediction}`}>
-                  Start now
+            {viewResult && (
+            <> 
+              <Typography>
+                We are {confidence}% sure that the most likely dog breed in this image is a {prediction}!
+              </Typography>
+              <PieChart
+                series={[
+                  {
+                    data: [
+                      {value: confidence, label: prediction },
+                      {value: confidence2, label: prediction2},
+                      {value: confidence3, label: prediction3},
+                      {value: (100- (confidence + confidence2 + confidence3)), label: 'other'}
+                    ],
+                  },
+                ]}
+                width={600}
+                height={200}
+              >
+              </PieChart>
+              <Typography>
+               If you would like to find out about your dog, you can read more here!
+              </Typography>
+              <Button variant="outlined" color="primary" href={`/description/${prediction}`}>
+                Start now
               </Button>
-            <Button variant="contained" onClick={saveSubmission}>
-              Save Submission to History
-            </Button>
-            {username && (
-              
-          <Box sx={{ width: '33%'}}>
+              {username && (
+              <>
+                <Typography>
+                  If you wish to save this submission to your account, click the button below
+                </Typography>
+                <Button variant="contained" onClick={saveSubmission}>
+                  Save Submission to History
+                </Button>
+                <Typography>
+                  Are you satisfied with this result? If not, please provide feedback on what you believe to be the correct breed.
+                </Typography>
+
+                <Box sx={{ width: '33%'}}>
             <Autocomplete 
               value={value}
               onChange={(event, newValue) => {
@@ -310,11 +320,12 @@ export default function DragDropImage() {
               Submit Actual Breed
             </Button>
             </Box>
-            
-            )}
+              </>
+              )}
             </>
+            )}
+          </>
         )}
-
         </Container>
       </form>
     </>

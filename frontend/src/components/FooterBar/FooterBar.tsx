@@ -131,13 +131,13 @@ export default function FooterBar() {
         }}
       >
         <div>
-          <Link color="text.secondary" href="#">
+          <Link color="text.secondary" href="https://www.linkedin.com/in/dominik-kawka/">
             Dominik Kawka
           </Link>
           <Typography display="inline" sx={{ mx: 0.5, opacity: 0.5 }}>
             &nbsp;•&nbsp;
           </Typography>
-          <Link color="text.secondary" href="#">
+          <Link color="text.secondary" href="https://www.wit.ie/about_wit/contact_us/staff_directory/michael_mcmahon">
             Michael McMahon
           </Link>
           <Copyright />
