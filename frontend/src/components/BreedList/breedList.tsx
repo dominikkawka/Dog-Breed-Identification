@@ -13,6 +13,10 @@ interface Prediction {
   imageFile: string;
   username: string;
   date: string;
+  secondPredictedBreed: string;
+  secondConfidence: string;
+  thirdPredictedBreed: string;
+  thirdConfidence: string;
 }
 
 interface BreedListProps {
