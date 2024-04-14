@@ -7,6 +7,11 @@ import CakeIcon from '@mui/icons-material/Cake';
 import HeightIcon from '@mui/icons-material/Height';
 import ScaleIcon from '@mui/icons-material/Scale';
 import axios from "axios";
+import { styled } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
+const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 interface DogBreedDescription {
   BreedName: string;
@@ -27,6 +32,9 @@ interface DogBreedDescription {
 const DogDescriptionPage: React.FC = () => {
   const [description, setDescription] = useState<DogBreedDescription | null>(null);
   const { breedName }: { breedName: string } = useParams(); // Get the breed from the URL
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,7 +82,70 @@ const DogDescriptionPage: React.FC = () => {
         background: 'white',
         border: 2
       }}>
-        {description ? (
+      {isMobile ? (
+          <>
+            {description ? (
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <img alt={description.BreedName} src={description.Image} width="100%" />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Card sx={{ background: '#f5f5f5' }}>
+                  <CardHeader title={description.BreedName} />
+                  <CardContent>
+                    <Typography>{description.Description}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={4} md={2} sx={{ mt: 2, display: "flex" }}>
+                <CakeIcon fontSize="large" sx={{ mr: 1 }} />
+                <Typography sx={{ mt: 1 }}>Life Expectancy: </Typography>
+                <Typography sx={{ mt: 1 }}>{description.LifeExpectancyLow} - {description.LifeExpectancyHigh} years</Typography>
+              </Grid>
+              <Grid item xs={12} sm={4} md={2} sx={{ mt: 2, display: "flex" }}>
+                <HeightIcon fontSize="large" sx={{ mr: 1 }} />
+                <Typography sx={{ mt: 1 }}>Height: </Typography>
+                <Typography sx={{ mt: 1 }}>{description.Height}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={4} md={2} sx={{ mt: 2, display: "flex" }}>
+                <ScaleIcon fontSize="large" sx={{ mr: 1 }} />
+                <Typography sx={{ mt: 1 }}>Weight: </Typography>
+                <Typography sx={{ mt: 1 }}>{description.Weight}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} sx={{ mt: 2 }}>
+                <Typography>Energy:</Typography>
+                <Rating name="read-only" icon={<PetsIcon fontSize="large" />} emptyIcon={<PetsOutlinedIcon fontSize="large" />} value={description.Energy} readOnly />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} sx={{ mt: 2 }}>
+                <Typography>Social with Dogs: </Typography>
+                <Rating name="read-only" icon={<PetsIcon fontSize="large" />} emptyIcon={<PetsOutlinedIcon fontSize="large" />} value={description.SocialWithDogs} readOnly />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} sx={{ mt: 2 }}>
+                <Typography>Social with People: </Typography>
+                <Rating name="read-only" icon={<PetsIcon fontSize="large" />} emptyIcon={<PetsOutlinedIcon fontSize="large" />} value={description.SocialWithPeople} readOnly />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} sx={{ mt: 2 }}>
+                <Typography>Social with Children: </Typography>
+                <Rating name="read-only" icon={<PetsIcon fontSize="large" />} emptyIcon={<PetsOutlinedIcon fontSize="large" />} value={description.SocialWithChildren} readOnly />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} sx={{ mt: 2 }}>
+                <Typography>Training: </Typography>
+                <Rating name="read-only" icon={<PetsIcon fontSize="large" />} emptyIcon={<PetsOutlinedIcon fontSize="large" />} value={description.Training} readOnly />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3} sx={{ mt: 2 }}>
+                <Typography>Attention Needed: </Typography>
+                <Rating name="read-only" icon={<PetsIcon fontSize="large" />} emptyIcon={<PetsOutlinedIcon fontSize="large" />} value={description.AttentionNeeded} readOnly />
+              </Grid>
+            </Grid>
+        ) : (
+          <Typography variant="body2" color="textSecondary">
+            No description available for this input. If this is an error, please contact me on X, or Twitter
+          </Typography>
+        )}
+          </>
+        ) : (
+          <>
+          {description ? (
           <Grid container spacing={2}>
             <Grid item sx={{
               
@@ -140,6 +211,9 @@ const DogDescriptionPage: React.FC = () => {
           </Typography>
           )
         }
+          </>
+        )}
+        
         </Container>
       </div>
     </>
