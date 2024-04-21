@@ -55,9 +55,6 @@ function FileForm() {
         if (response) {
         }
       } catch (error) {
-        //console.log("prediction: "+ prediction)
-        //console.log("image name: "+ image.name)
-        //console.log("actualBreed: "+ actualBreed)
       }
     };
 
@@ -169,7 +166,6 @@ function FileForm() {
             });
           } else {
             setValue(newValue);
-            console.log('newValue: '+ JSON.stringify(newValue))
           }
         }}
         filterOptions={(options, params) => {

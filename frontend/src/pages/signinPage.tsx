@@ -35,7 +35,6 @@ export default function SignInSide() {
     } catch (error) {
       if (error instanceof AxiosError) {
         let errorMessage = error.response?.data.detail; 
-        console.log(errorMessage)
         if (!username || !password) {
           setErrorMessage("Username or password cannot be empty");
         } else {

@@ -18,7 +18,6 @@ const HistoryPage = () => {
           token: token
         },
       });
-      console.log(response.data);
       setPredictions(response.data);
       setProgressCircle(false)
     } catch (error) {
@@ -34,7 +33,6 @@ const HistoryPage = () => {
           image: image
         }
       })
-      console.log(response.data);
       await fetchUserPredictions()
     } catch (error) {
       await fetchUserPredictions()

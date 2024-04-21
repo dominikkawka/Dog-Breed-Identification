@@ -19,7 +19,6 @@ export default function HomeStats() {
   const fetchAllPredictions = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/allPredictions`);
-      console.log(response.data);
       setAmount(response.data.length);
     } catch (error) {
       setAmount(301)
@@ -29,7 +28,6 @@ export default function HomeStats() {
   const fetchUserPredictions = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/allUsers`);
-      console.log(response.data);
       setUserAmount(response.data.length);
     } catch (error) {
       setUserAmount(301)

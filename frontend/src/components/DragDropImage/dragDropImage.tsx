@@ -54,7 +54,6 @@ export default function DragDropImage() {
             setImagePreview(URL.createObjectURL(selectedImage));
         } else {
             setUploadError('Unsupported file type. Please upload a PNG or JPEG image.')
-            console.error('Unsupported file type. Please upload a PNG or JPEG image.');
         }
     };
 
@@ -68,7 +67,6 @@ export default function DragDropImage() {
           setConfidence2(parseFloat(response.secondConfidence) || 0);
           setPrediction3(response.thirdPredictedBreed || '');
           setConfidence3(parseFloat(response.thirdConfidence) || 0);
-          console.log((confidence + confidence2 + confidence3))
         } catch (error) {
           // Handle error
         }
@@ -112,9 +110,6 @@ export default function DragDropImage() {
         if (response) {
         }
       } catch (error) {
-        //console.log("prediction: "+ prediction)
-        //console.log("image name: "+ image.name)
-        //console.log("actualBreed: "+ actualBreed)
       }
     };
 
@@ -252,7 +247,6 @@ export default function DragDropImage() {
                   });
                 } else {
                   setValue(newValue);
-                  console.log('newValue: '+ JSON.stringify(newValue))
                 }
               }}
               filterOptions={(options, params) => {
