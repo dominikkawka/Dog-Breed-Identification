@@ -60,11 +60,10 @@ function WebcamFeed() {
         imageName: imageName,
       })
       .then((r) => {
-        console.log(r.status);
+        //console.log(r.status);
         setProgressVisible(false); 
       })
-      .catch((e) => console.log(e));
-      //console.log(splitImgMetaData);
+      .catch((e) => console.log(''));
       setViewPrediction(true)
     } catch (error) {
     setViewPrediction(true)
@@ -81,7 +80,6 @@ function WebcamFeed() {
       setConfidence2(parseFloat(response.secondConfidence) || 0);
       setPrediction3(response.thirdPredictedBreed || '');
       setConfidence3(parseFloat(response.thirdConfidence) || 0);
-      console.log((confidence + confidence2 + confidence3))
     } catch (error) {
       // Handle error
     }
@@ -241,7 +239,6 @@ function WebcamFeed() {
                   });
                 } else {
                   setValue(newValue);
-                  console.log('newValue: '+ JSON.stringify(newValue))
                 }
               }}
               filterOptions={(options, params) => {

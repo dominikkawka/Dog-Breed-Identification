@@ -8,7 +8,6 @@ const AboutPage = () => {
   const fetchAllPredictions = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/allPredictions`);
-      console.log(response.data);
       setAmount(response.data.length);
     } catch (error) {
       setAmount("?")
@@ -18,7 +17,6 @@ const AboutPage = () => {
   const fetchUserPredictions = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/allUsers`);
-      console.log(response.data);
       setUserAmount(response.data.length);
     } catch (error) {
       setUserAmount("?")

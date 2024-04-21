@@ -42,7 +42,6 @@ const DogDescriptionPage: React.FC = () => {
         const result = await getDescription(breedName);
         setDescription(result);
       } catch (error) {
-        console.error('Error fetching description:', error);
       }
     };
 
@@ -57,10 +56,8 @@ const DogDescriptionPage: React.FC = () => {
         },
       });
 
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.error('Error fetching description:', error);
       throw error;
     }
   };

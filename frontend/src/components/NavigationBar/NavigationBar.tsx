@@ -24,7 +24,6 @@ const SiteHeader = ({ }) => {
   const navigate = useNavigate();
 
   let username = sessionStorage.getItem("username")
-  console.log("logged in as..." + username)
 
   const logout = () => {
     sessionStorage.removeItem("username")

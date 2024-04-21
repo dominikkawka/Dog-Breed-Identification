@@ -33,13 +33,11 @@ export default function SignUp() {
     } catch (error) {
       if (error instanceof AxiosError) {
         let errorMessage = error.response?.data.detail; 
-        console.log(errorMessage)
         setErrorMessage(JSON.stringify(errorMessage))
       } else {
         setErrorMessage("Unknown Error Occured")
       }
     }
-    //console.log(username, email, password);
   };
 
   return (

@@ -44,4 +44,4 @@ If you wish to use your GPU to build the model yourself, please follow [this gui
 
 #### Other
 
-I haven't uploaded the model itself since there seems to be a bug with git lfs, when downloaded the model is corrupted. In backend, create a folder named model and insert the model from this [google drive download link](https://drive.google.com/file/d/1mxr1Mmtp8ZQqLGGpO7450eUxIrJlQlKk/view?usp=sharing). 
+I haven't uploaded the model itself since there seems to be a bug with git lfs, when downloaded the model is corrupted. In backend, create a folder named model and insert the model from this [google drive download link](https://drive.google.com/file/d/1msjLsnz-Zqua8dRYwe3HL2ofQ36XA5GR/view?usp=sharing). 

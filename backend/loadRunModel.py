@@ -16,7 +16,7 @@ import jwt
 from backend import commonVariables as val
 
 def modelPrediction(dogBreedImage):
-    loadModel = load_model('model/InceptionV3-2.15-22Mar-122-Augmented.h5') #backend/model/InceptionV3-2.15-22Mar-122-Augmented.h5
+    loadModel = load_model('backend/model/InceptionV3-2.15-22Mar-122-Augmented.h5') #backend/model/InceptionV3-2.15-22Mar-122-Augmented.h5
     #convert image
     
     valueBreed = tf.keras.utils.load_img(dogBreedImage, target_size=(val.image_size,val.image_size))
