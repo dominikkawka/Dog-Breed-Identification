@@ -27,6 +27,7 @@ const SiteHeader = ({ }) => {
 
   const logout = () => {
     sessionStorage.removeItem("username")
+    sessionStorage.removeItem("token")
     navigate("/", { replace: true })
   }
 
