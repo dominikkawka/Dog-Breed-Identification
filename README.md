@@ -1,3 +1,5 @@
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10920/badge)](https://www.bestpractices.dev/projects/10920)
+
 # Dog Breed Identifier using tensorflow image classification. 
 
 #### Dataset used: [Stanford Dogs Dataset](https://www.kaggle.com/datasets/jessicali9530/stanford-dogs-dataset)
